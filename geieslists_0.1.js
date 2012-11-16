@@ -32,6 +32,16 @@ function List() {
 	return bigCons
 };
 
+function ArrayToList(anArray) {
+	var bigCons;
+	for ( var i = anArray.length; i--;) {
+		bigCons = cons(anArray[i], bigCons);
+	}
+	if (bigCons) // NB: List() is undefined!!
+		bigCons.toString = consToString.bind(bigCons, bigCons)
+	return bigCons
+}
+
 var Nil = List()
 
 function size(list) {
