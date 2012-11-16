@@ -17,6 +17,21 @@ YAHOO.GEIESLISTS.test.oTestList = new YAHOO.tool.TestCase({
 	}
 });
 
+YAHOO.GEIESLISTS.test.oTestArrayToList = new YAHOO.tool.TestCase({
+    name: "TestArrayToList",
+    testList: function () {
+        var myList = ArrayToList(['d', 'b', 'a'])
+        Assert.areEqual(head(myList), 'd')
+        Assert.areEqual(head(tail(myList)), 'b')
+        Assert.areEqual(last(myList), 'a')
+
+        var sorted = msort(myList)
+        Assert.areEqual(head(sorted), 'a')
+        Assert.areEqual(head(tail(sorted)), 'b')
+        Assert.areEqual(last(sorted), 'd')
+    }
+});
+
 YAHOO.GEIESLISTS.test.oTestInit = new YAHOO.tool.TestCase({
 	name : "TestInit",
 	testInit : function() {
@@ -195,8 +210,10 @@ YAHOO.util.Event
 		.onDOMReady(function() {
 
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite = new YAHOO.tool.TestSuite(
-					"YUI Test Suite for AllAboutLists");
+					"YUI Test Suite for Geieslists");
 
+			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
+					.add(YAHOO.GEIESLISTS.test.oTestArrayToList);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestTake);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
