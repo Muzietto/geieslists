@@ -1,4 +1,4 @@
-var scrambledWords = ["transition"
+var scrambledWords_100 = ["transition"
 ,"megahertz"
 ,"coagulate"
 ,"wilting"

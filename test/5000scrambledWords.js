@@ -1,4 +1,4 @@
-var scrambledWords = ["patters"
+var scrambledWords_5000 = ["patters"
 ,"reconstructed"
 ,"greeter"
 ,"illuminates"

@@ -1,4 +1,4 @@
-var scrambledWords = ["planeload"
+var scrambledWords_2500 = ["planeload"
 ,"recognizing"
 ,"slain"
 ,"birthrights"

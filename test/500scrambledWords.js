@@ -1,4 +1,4 @@
-var scrambledWords = ["screening",
+var scrambledWords_500 = ["screening",
 "trimmed",
 "reporter",
 "rouge",

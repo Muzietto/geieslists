@@ -1,4 +1,4 @@
-var scrambledWords = ["ransacks",
+var scrambledWords_20000 = ["ransacks",
 "digram",
 "queerer",
 "storages",

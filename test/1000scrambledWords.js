@@ -1,4 +1,4 @@
-var scrambledWords = ["stuck"
+var scrambledWords_1000 = ["stuck"
 ,"gimbel"
 ,"crestfallen"
 ,"benson"
