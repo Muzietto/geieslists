@@ -1,4 +1,4 @@
-function cons(x, y) {
+var cons = function(x, y) {
 	return function(w) {
 	 if (!x) {
 		 return false 
