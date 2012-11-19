@@ -1,9 +1,10 @@
 function cons(x, y) {
 	return function(w) {
-	 if (!x) 
+	 if (!x) {
 		 return false 
-	 else
+	 } else {
 		return w(x, y)
+		}
 	};
 };
 
