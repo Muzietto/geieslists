@@ -1,4 +1,3 @@
-
 function cons(x, y) {
 	return function(w) {
 	 if (!x) 
