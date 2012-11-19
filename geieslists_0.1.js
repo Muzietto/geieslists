@@ -1,9 +1,9 @@
 var cons = function(x, y) {
 	return function(w) {
 	 if (!x) {
-		 return false 
+		 return false;
 	 } else {
-		return w(x, y)
+		return w(x, y);
 		}
 	};
 };
