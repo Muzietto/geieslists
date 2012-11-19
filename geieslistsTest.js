@@ -32,11 +32,11 @@ YAHOO.GEIESLISTS.test.oTestArrayToList = new YAHOO.tool.TestCase({
     }
 });
 
-YAHOO.GEIESLISTS.test.oTestInit = new YAHOO.tool.TestCase({
+YAHOO.GEIESLISTS.test.oTestListInit = new YAHOO.tool.TestCase({
 	name : "TestInit",
 	testInit : function() {
 		var myList = List('a', 'b', 'd')
-		var initt = init(myList)
+		var initt = listInit(myList)
 		Assert.areEqual(head(initt), 'a')
 		Assert.areEqual(head(tail(initt)), 'b')
 		Assert.areEqual(last(initt), 'b')
@@ -241,7 +241,7 @@ YAHOO.util.Event
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestLast);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
-					.add(YAHOO.GEIESLISTS.test.oTestInit);
+					.add(YAHOO.GEIESLISTS.test.oTestListInit);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestConcat);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
