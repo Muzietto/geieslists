@@ -116,7 +116,7 @@ function sort(list) {
 // elems = absolute number of list elements
 function take(elems, list) {
     if (!list || size(list) === elems) return list
-    else return take(elems, init(list))
+    else return take(elems, listInit(list))
 }
 
 // elems = absolute number of list elements
@@ -172,7 +172,7 @@ function msort(list) {
             }
         }
         var tuple = splitAt(n, list)
-        return mergeT(msort(tuple._1), msort(tuple._2))
+        return mergeT(msort(tuple.v1), msort(tuple.v2))
     }
 }
 

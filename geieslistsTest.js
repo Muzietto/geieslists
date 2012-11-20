@@ -10,10 +10,10 @@ YAHOO.GEIESLISTS.test.oTestList = new YAHOO.tool.TestCase({
 		Assert.isNull(tail(myA))
 
 		var myList = List('a', 'b', 'd')
-		var initt = init(myList)
-		Assert.areEqual(head(initt), 'a')
-		Assert.areEqual(head(tail(initt)), 'b')
-		Assert.areEqual(last(initt), 'b')
+		var listInitt = listInit(myList)
+		Assert.areEqual(head(listInitt), 'a')
+		Assert.areEqual(head(tail(listInitt)), 'b')
+		Assert.areEqual(last(listInitt), 'b')
 	}
 });
 
@@ -36,10 +36,10 @@ YAHOO.GEIESLISTS.test.oTestListInit = new YAHOO.tool.TestCase({
 	name : "TestInit",
 	testInit : function() {
 		var myList = List('a', 'b', 'd')
-		var initt = listInit(myList)
-		Assert.areEqual(head(initt), 'a')
-		Assert.areEqual(head(tail(initt)), 'b')
-		Assert.areEqual(last(initt), 'b')
+		var listInitt = listInit(myList)
+		Assert.areEqual(head(listInitt), 'a')
+		Assert.areEqual(head(tail(listInitt)), 'b')
+		Assert.areEqual(last(listInitt), 'b')
 	}
 });
 
@@ -95,18 +95,18 @@ YAHOO.GEIESLISTS.test.oTestSplitAt = new YAHOO.tool.TestCase({
 	name : "TestSplitAt",
 	testSplitAt : function() {
 		var myList = List('a', 'b', 'd')
-		Assert.areEqual('List(a,b)', consToString(splitAt(2, myList)._1))
-		Assert.areEqual('List(d)', consToString(splitAt(2, myList)._2))
-		Assert.areEqual('List(a,b,d)', consToString(splitAt(4, myList)._1))		
-		Assert.areEqual('List()', consToString(splitAt(4, myList)._2))
-		Assert.areEqual('List()', consToString(splitAt(0, myList)._1))
-		Assert.areEqual('List(a,b,d)', consToString(splitAt(0, myList)._2))
-		Assert.areEqual('List()', consToString(splitAt(-2, myList)._1))
-		Assert.areEqual('List(a,b,d)', consToString(splitAt(-2, myList)._2))
+		Assert.areEqual('List(a,b)', consToString(splitAt(2, myList).v1))
+		Assert.areEqual('List(d)', consToString(splitAt(2, myList).v2))
+		Assert.areEqual('List(a,b,d)', consToString(splitAt(4, myList).v1))		
+		Assert.areEqual('List()', consToString(splitAt(4, myList).v2))
+		Assert.areEqual('List()', consToString(splitAt(0, myList).v1))
+		Assert.areEqual('List(a,b,d)', consToString(splitAt(0, myList).v2))
+		Assert.areEqual('List()', consToString(splitAt(-2, myList).v1))
+		Assert.areEqual('List(a,b,d)', consToString(splitAt(-2, myList).v2))
 
 		var myEmptyList = List()
-		Assert.areEqual('List()', consToString(splitAt(4, myEmptyList)._2))
-		Assert.areEqual('List()', consToString(splitAt(4, myEmptyList)._1))
+		Assert.areEqual('List()', consToString(splitAt(4, myEmptyList).v2))
+		Assert.areEqual('List()', consToString(splitAt(4, myEmptyList).v1))
 	}
 });
 
