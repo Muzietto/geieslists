@@ -17,6 +17,20 @@ YAHOO.GEIESLISTS.test.oTestList = new YAHOO.tool.TestCase({
 	}
 });
 
+YAHOO.GEIESLISTS.test.oTestEqualList = new YAHOO.tool.TestCase({
+	name : "TestEqualList",
+	testList : function() {
+		var myA = List('a')
+		var myA2 = List('a','b')
+		var myA3 = List('b')
+		var myList = List('a', 'b', 'd')
+		var myList2 = List('a', 'b', 'd')
+		Assert.isTrue(equalList(myList,myList2))
+		Assert.isFalse(equalList(myA,myA2))
+		Assert.isFalse(equalList(myA,myA3))
+	}
+});
+
 YAHOO.GEIESLISTS.test.oTestArrayToList = new YAHOO.tool.TestCase({
     name: "TestArrayToList",
     testList: function () {
@@ -246,6 +260,8 @@ YAHOO.util.Event
 					.add(YAHOO.GEIESLISTS.test.oTestConcat);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestReverse);
+			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
+					.add(YAHOO.GEIESLISTS.test.oTestEqualList);
 
 			var logger = new YAHOO.tool.TestLogger("testLogger_GEIESLISTS");
 			YAHOO.tool.TestRunner

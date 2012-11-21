@@ -154,6 +154,16 @@ function splitAt(elem,list) {
 	}
 }
 
+function equalList(listA,listB) {
+	if (size(listA) !== size(listB)) return false;
+	var innerEq = function(alist,blist) {
+		if (head(alist) !== head(blist)) return false;
+		else if (!tail(alist) && !tail(blist)) return true;
+		else return innerEq(tail(alist),tail(blist));
+	}
+	return innerEq(listA,listB)
+}
+
 function msort(list) {
     var n = Math.floor(size(list) / 2)
     if (n === 0)
