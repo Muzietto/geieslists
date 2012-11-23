@@ -19,7 +19,7 @@ YAHOO.GEIESLISTS.test.oTestList = new YAHOO.tool.TestCase({
 
 YAHOO.GEIESLISTS.test.oTestEqualList = new YAHOO.tool.TestCase({
 	name : "TestEqualList",
-	testList : function() {
+	testEqualList : function() {
 		var myA = List('a')
 		var myA2 = List('a','b')
 		var myA3 = List('b')
@@ -28,6 +28,20 @@ YAHOO.GEIESLISTS.test.oTestEqualList = new YAHOO.tool.TestCase({
 		Assert.isTrue(equalList(myList,myList2))
 		Assert.isFalse(equalList(myA,myA2))
 		Assert.isFalse(equalList(myA,myA3))
+	}
+});
+
+YAHOO.GEIESLISTS.test.oTestEqualList2 = new YAHOO.tool.TestCase({
+	name : "TestEqualList2",
+	testEqualList2 : function() {
+		var myA = List('a')
+		var myA2 = List('a','b')
+		var myA3 = List('b')
+		var myList = List('a', 'b', 'd')
+		var myList2 = List('a', 'b', 'd')
+		Assert.isTrue(equalList2(myList,myList2))
+		Assert.isFalse(equalList2(myA,myA2))
+		Assert.isFalse(equalList2(myA,myA3))
 	}
 });
 
@@ -74,6 +88,16 @@ YAHOO.GEIESLISTS.test.oTestRemoveAt = new YAHOO.tool.TestCase({
 		var myList = List('a', 'b', 'c', 'd')
 		Assert.areEqual('List(a,c,d)', consToString(removeAt(1, myList)))
 		Assert.areEqual('List(a,b,c,d)', consToString(removeAt(18, myList)))
+	}
+});
+
+YAHOO.GEIESLISTS.test.oTestIsNil = new YAHOO.tool.TestCase({
+	name : "TestIsNil",
+	testIsNil : function() {
+		Assert.isTrue(isNil(List()))
+		var myList = List('a')
+		Assert.isTrue(isNil(tail(myList)))
+		Assert.isTrue(isNil(removeAt(0,myList)))
 	}
 });
 
@@ -257,11 +281,15 @@ YAHOO.util.Event
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestListInit);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
+					.add(YAHOO.GEIESLISTS.test.oTestIsNil);
+			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestConcat);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestReverse);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestEqualList);
+			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
+					.add(YAHOO.GEIESLISTS.test.oTestEqualList2);
 
 			var logger = new YAHOO.tool.TestLogger("testLogger_GEIESLISTS");
 			YAHOO.tool.TestRunner

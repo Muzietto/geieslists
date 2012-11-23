@@ -44,6 +44,10 @@ function ArrayToList(anArray) {
 
 var Nil = List()
 
+function isNil(list){
+	return !(list);
+}
+
 function size(list) {
     if (!list)
         return 0
