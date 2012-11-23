@@ -158,6 +158,7 @@ function splitAt(elem,list) {
 	}
 }
 
+// Marco's
 function equalList(listA,listB) {
 	if (size(listA) !== size(listB)) return false;
 	var innerEq = function(alist,blist) {
@@ -168,7 +169,16 @@ function equalList(listA,listB) {
 	return innerEq(listA,listB)
 }
 
-function msort(list) {
+// Dionyzis's
+function equalList2( listA, listB ) {
+	return isNil( listA ) && isNil( listB )
+		||    !isNil( listB )
+		  && !isNil( listB )
+		  && head( listA ) === head( listB )
+		  && equalList( tail( listA ), tail( listB ) );
+}
+
+		function msort(list) {
     var n = Math.floor(size(list) / 2)
     if (n === 0)
         return list
