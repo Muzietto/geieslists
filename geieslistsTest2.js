@@ -1,6 +1,51 @@
+/* a few implementations from the Little Schemer
+*/
+
 YAHOO.namespace('GEIESLISTS.test');
 
 var Assert = YAHOO.util.Assert;
+
+YAHOO.GEIESLISTS.test.oTestIsIntersection = new YAHOO.tool.TestCase({
+	name : "TestIsIntersection",
+	testIsIntersection : function() {
+		Assert.isTrue(isIntersection(List('a'),List('a')))
+		Assert.isFalse(isIntersection(List(),List()))
+		Assert.isFalse(isIntersection(List('a'),List('b')))
+		Assert.isFalse(isIntersection(List('a'),List()))
+		Assert.isFalse(isIntersection(List(),List('c')))
+		Assert.isTrue(isIntersection(List('a','b','c'),List('b','a')))
+		Assert.isFalse(isIntersection(List('a','b','c'),List('z','y','z')))
+		Assert.isTrue(isIntersection(List('a','b','c'),List('z','c','z')))
+	}
+});
+
+YAHOO.GEIESLISTS.test.oTestIntersection = new YAHOO.tool.TestCase({
+	name : "TestIntersection",
+	testIntersection : function() {
+		Assert.areEqual('List(a)',consToString(intersection(List('a'),List('a'))))
+		Assert.areEqual('List()',consToString(intersection(List(),List())))
+		Assert.areEqual('List()',consToString(intersection(List('a'),List('b'))))
+		Assert.areEqual('List()',consToString(intersection(List('a'),List())))
+		Assert.areEqual('List()',consToString(intersection(List(),List('a'))))
+		Assert.areEqual('List(a,b)',consToString(intersection(List('a','b','c'),List('b','a'))))
+		Assert.areEqual('List()',consToString(intersection(List('a','b','c'),List('x','y','z'))))
+		Assert.areEqual('List(c)',consToString(intersection(List('a','b','c'),List('x','c','z'))))
+	}
+});
+
+YAHOO.GEIESLISTS.test.oTestUnion = new YAHOO.tool.TestCase({
+	name : "TestUnion",
+	testUnion : function() {
+		Assert.areEqual('List(a)',consToString(union(List('a'),List('a'))))
+		Assert.areEqual('List()',consToString(union(List(),List())))
+		Assert.areEqual('List(a,b)',consToString(union(List('a'),List('b'))))
+		Assert.areEqual('List(a)',consToString(union(List('a'),List())))
+		Assert.areEqual('List(a)',consToString(union(List(),List('a'))))
+		Assert.areEqual('List(c,b,a)',consToString(union(List('a','b','c'),List('b','a'))))
+		Assert.areEqual('List(a,b,c,x,y,z)',consToString(union(List('a','b','c'),List('x','y','z'))))
+		Assert.areEqual('List(a,b,x,c,z)',consToString(union(List('a','b','c'),List('x','c','z'))))
+	}
+});
 
 YAHOO.GEIESLISTS.test.oTestIsSet = new YAHOO.tool.TestCase({
 	name : "TestIsSet",
@@ -74,5 +119,11 @@ YAHOO.util.Event
 					.add(YAHOO.GEIESLISTS.test.oTestIsSubset);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestEqualSet);
+			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
+					.add(YAHOO.GEIESLISTS.test.oTestIsIntersection);
+			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
+					.add(YAHOO.GEIESLISTS.test.oTestIntersection);
+			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
+					.add(YAHOO.GEIESLISTS.test.oTestUnion);
 		});
 

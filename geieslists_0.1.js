@@ -204,6 +204,8 @@ function msort(list) {
     }
 }
 
+/* a few implementations from the Little Schemer
+*/
 function isSet(list) {
 	if (isNil(list)) return true;
 	else return (!isMember(head(list),tail(list)) && isSet(tail(list)));
@@ -224,4 +226,21 @@ function isSubset(set1,set2){
 	by using isSubset */
 function equalSet(set1,set2) {
 	return (isSubset(set1,set2) && isSubset(set2,set1));
+}
+
+function isIntersection(set1, set2){
+	if (isNil(set1) || isNil(set2)) return false;
+	else return (isMember(head(set1),set2) || isIntersection(tail(set1),set2));
+}
+
+function intersection(set1,set2) {
+	if (isNil(set1)) return Nil;
+	else if (isMember(head(set1),set2)) return cons(head(set1),intersection(tail(set1),set2));
+	else return intersection(tail(set1),set2);
+}
+
+function union(set1,set2){
+	if (isNil(set1)) return set2;
+	else if (isMember(head(set1),set2)) return union(tail(set1),set2);
+	else return cons(head(set1),union(tail(set1),set2));
 }
