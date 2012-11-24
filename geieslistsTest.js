@@ -292,6 +292,8 @@ YAHOO.util.Event
 					.add(YAHOO.GEIESLISTS.test.oTestEqualList2);
 
 			var logger = new YAHOO.tool.TestLogger("testLogger_GEIESLISTS");
+			logger.hideCategory("info");
+
 			YAHOO.tool.TestRunner
 					.add(YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite);
 		});

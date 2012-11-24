@@ -84,7 +84,6 @@ function listInit(list) {
     }
 }
 
-
 function concat(list1, list2) {
     if (!list1) return list2
     else if (!list2) return list1
@@ -136,6 +135,11 @@ function elementAt(index, list) {
     else return elementAt(index - 1, tail(list))
 }
 
+function isMember(atom, list) {
+	if (isNil(list)) return false;
+	else return (head(list) === atom) || (isMember(atom, tail(list)));
+}
+
 // index starts from 0
 function removeAt(index, list) {
     if (index < 0 || index > size(list)) return list
@@ -178,7 +182,7 @@ function equalList2( listA, listB ) {
 		  && equalList( tail( listA ), tail( listB ) );
 }
 
-		function msort(list) {
+function msort(list) {
     var n = Math.floor(size(list) / 2)
     if (n === 0)
         return list
@@ -200,3 +204,24 @@ function equalList2( listA, listB ) {
     }
 }
 
+function isSet(list) {
+	if (isNil(list)) return true;
+	else return (!isMember(head(list),tail(list)) && isSet(tail(list)));
+}
+
+function makeset(list) {
+	if (isNil(list)) return Nil;
+	else if (isMember(head(list), tail(list))) return makeset(tail(list));
+	else return cons (head(list),makeset(tail(list)));
+}
+
+function isSubset(set1,set2){
+	if (isNil(set1)) return true;
+	else return (isMember(head(set1),set2) && isSubset(tail(set1),set2));
+}
+
+/* allows combinations of elements
+	by using isSubset */
+function equalSet(set1,set2) {
+	return (isSubset(set1,set2) && isSubset(set2,set1));
+}
