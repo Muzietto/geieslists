@@ -2,18 +2,116 @@ YAHOO.namespace('GEIESLISTS.test');
 
 var Assert = YAHOO.util.Assert;
 
+YAHOO.GEIESLISTS.test.oTestIsEmpty = new YAHOO.tool.TestCase({
+	name : "TestIsEmpty",
+	testIsEmpty : function() {
+		Assert.isTrue(isEmpty(EMPTY))
+		Assert.isTrue(isEmpty(NIL))
+		var listA = cons('a',EMPTY)
+		Assert.isFalse(isEmpty(listA))
+		Assert.isTrue(isEmpty(tail(listA)))
+		Assert.isTrue(isEmpty(List()))		
+		var myList = List('a')
+		Assert.isTrue(isEmpty(tail(myList)))
+	}
+});
+
+YAHOO.GEIESLISTS.test.oTestCons = new YAHOO.tool.TestCase({
+	name : "TestCons",
+	testCons : function() {
+		// check faulty input handling
+		var listXX = cons('avv','aString')
+		Assert.areEqual('avv', head(listXX))
+		Assert.areEqual(EMPTY, tail(listXX))
+		try{
+			var listA = cons(null,EMPTY)
+			Assert.isTrue(false, 'cons without head should fail')
+		} catch (err) {
+			Assert.areEqual("cannot cons without head", err)
+		}
+		// List(a)
+		var listA = cons('a',EMPTY)
+		Assert.areEqual('a', head(listA))
+		Assert.areEqual(EMPTY, tail(listA))		
+		// List(b,a)
+		var listBA = cons('b',listA)
+		Assert.areEqual('b', head(listBA))
+		Assert.areEqual(listA, tail(listBA))		
+		// List(List(a),b,a)
+		var listlA_BA = cons(listA,listBA)
+		Assert.areEqual(listA, head(listlA_BA))
+		Assert.areEqual(listBA, tail(listlA_BA))
+		Assert.areEqual(listA, tail(tail(listlA_BA)))
+		Assert.areEqual('a', head(head(listlA_BA)))
+		Assert.isTrue(isEmpty(tail(head(listlA_BA))))
+	}
+});
+
+YAHOO.GEIESLISTS.test.oTestElementAt = new YAHOO.tool.TestCase({
+	name : "TestElementAt",
+	testElementAt : function() {
+		var myList = List('a', 'b', 'c', 'd')
+		Assert.areEqual('b', elementAt(1, myList))
+		Assert.isTrue(isEmpty(elementAt(18, myList)))
+	}
+});
+
+YAHOO.GEIESLISTS.test.oTestIsAtom = new YAHOO.tool.TestCase({
+	name : "TestIsAtom",
+	testIsAtom : function() {
+		var myList = List('a', 'b', 'c', 'd')
+		Assert.isTrue(isAtom(head(myList)))
+		Assert.isFalse(isAtom(tail(myList)))
+	}
+});
+
+YAHOO.GEIESLISTS.test.oTestSize = new YAHOO.tool.TestCase({
+	name : "TestSize",
+	testSize : function() {
+		var myList = List('a', 'b', 'd')
+		Assert.areEqual(3, size(myList))
+		var myEmptyList = List()
+		Assert.areEqual(0, size(myEmptyList))
+	}
+});
+
+YAHOO.GEIESLISTS.test.oTestTake = new YAHOO.tool.TestCase({
+	name : "TestTake",
+	testTake : function() {
+		var myList = List('a', 'b', 'c', 'd')
+		Assert.areEqual('a', head(take(1, myList)))
+		var take2 = take(2, myList)
+		Assert.areEqual(2, size(take2))
+		Assert.areEqual('a', head(take2))
+		Assert.areEqual('b', head(tail(take2)))
+		Assert.isTrue(isEmpty(take(18, myList)))
+	}
+});
+
 YAHOO.GEIESLISTS.test.oTestList = new YAHOO.tool.TestCase({
 	name : "TestList",
 	testList : function() {
+		var myEmpty = List();
+		Assert.isTrue(isEmpty(myEmpty))
+		Assert.areEqual(EMPTY, myEmpty)				
 		var myA = List('a')
-		Assert.areEqual(head(myA), 'a')
-		Assert.isNull(tail(myA))
+		Assert.areEqual('a', head(myA))		
+		Assert.isTrue(isEmpty(tail(myA)))
+		var myList = List('a', 'b', 'd')
+		Assert.areEqual('a', head(myList))
+		Assert.areEqual('b', head(tail(myList)))
+		Assert.areEqual('d', head(tail(tail(myList))))
+	}
+});
 
+YAHOO.GEIESLISTS.test.oTestListInit = new YAHOO.tool.TestCase({
+	name : "TestListInit",
+	testListInit : function() {
 		var myList = List('a', 'b', 'd')
 		var listInitt = listInit(myList)
-		Assert.areEqual(head(listInitt), 'a')
-		Assert.areEqual(head(tail(listInitt)), 'b')
-		Assert.areEqual(last(listInitt), 'b')
+		Assert.areEqual(2, size(listInitt))
+		Assert.areEqual('a', head(listInitt))
+		Assert.areEqual('b', head(tail(listInitt)))
 	}
 });
 
@@ -47,76 +145,48 @@ YAHOO.GEIESLISTS.test.oTestEqualList2 = new YAHOO.tool.TestCase({
 
 YAHOO.GEIESLISTS.test.oTestArrayToList = new YAHOO.tool.TestCase({
     name: "TestArrayToList",
-    testList: function () {
+    testArrayToList: function () {
+        var myEmptyList = ArrayToList([])
+        Assert.isTrue(myEmptyList === EMPTY)
+
         var myList = ArrayToList(['d', 'b', 'a'])
-        Assert.areEqual(head(myList), 'd')
-        Assert.areEqual(head(tail(myList)), 'b')
-        Assert.areEqual(last(myList), 'a')
+        Assert.areEqual('d', head(myList))
+        Assert.areEqual('b', head(tail(myList)))
+        Assert.areEqual('a', last(myList))
 
         var sorted = msort(myList)
         Assert.areEqual(head(sorted), 'a')
         Assert.areEqual(head(tail(sorted)), 'b')
         Assert.areEqual(last(sorted), 'd')
+
+        var myLlist = ArrayToList(['d', [['b'], 'a'], []])
+        Assert.areEqual('d', head(myLlist))
+        Assert.areEqual('b', head(head(head(tail(myLlist)))))
+        Assert.areEqual('a', head(tail(head(tail(myLlist)))))
     }
 });
 
-YAHOO.GEIESLISTS.test.oTestListInit = new YAHOO.tool.TestCase({
-	name : "TestInit",
-	testInit : function() {
+YAHOO.GEIESLISTS.test.oTestLast = new YAHOO.tool.TestCase({
+	name : "TestLast",
+	testLast : function() {
+		Assert.areEqual('a', last(List('a')))
 		var myList = List('a', 'b', 'd')
-		var listInitt = listInit(myList)
-		Assert.areEqual(head(listInitt), 'a')
-		Assert.areEqual(head(tail(listInitt)), 'b')
-		Assert.areEqual(last(listInitt), 'b')
-	}
-});
-
-YAHOO.GEIESLISTS.test.oTestSize = new YAHOO.tool.TestCase({
-	name : "TestSize",
-	testSize : function() {
-		var myList = List('a', 'b', 'd')
-		Assert.areEqual(size(myList), 3)
-
-		var myEmptyList = List()
-		Assert.areEqual(size(myEmptyList), 0)
+		Assert.areEqual('d', last(myList))
+        var myLlist = ArrayToList(['d', 'z', ['s', ['b'], 'a']])
+		Assert.areEqual('a', last(last(myLlist)))
 	}
 });
 
 YAHOO.GEIESLISTS.test.oTestRemoveAt = new YAHOO.tool.TestCase({
 	name : "TestRemoveAt",
 	testRemoveAt : function() {
-		var myList = List('a', 'b', 'c', 'd')
-		Assert.areEqual('List(a,c,d)', consToString(removeAt(1, myList)))
-		Assert.areEqual('List(a,b,c,d)', consToString(removeAt(18, myList)))
-	}
-});
-
-YAHOO.GEIESLISTS.test.oTestIsNil = new YAHOO.tool.TestCase({
-	name : "TestIsNil",
-	testIsNil : function() {
-		Assert.isTrue(isNil(List()))
-		var myList = List('a')
-		Assert.isTrue(isNil(tail(myList)))
-		Assert.isTrue(isNil(removeAt(0,myList)))
-	}
-});
-
-YAHOO.GEIESLISTS.test.oTestElementAt = new YAHOO.tool.TestCase({
-	name : "TestElementAt",
-	testElementAt : function() {
-		var myList = List('a', 'b', 'c', 'd')
-		Assert.areEqual('b', elementAt(1, myList))
-		Assert.areEqual(null, elementAt(18, myList))
-	}
-});
-
-YAHOO.GEIESLISTS.test.oTestTake = new YAHOO.tool.TestCase({
-	name : "TestTake",
-	testTake : function() {
-		var myList = List('a', 'b', 'c', 'd')
-		Assert.areEqual('List(a)', consToString(take(1, myList)))
-		Assert.areEqual('List(a,b)', consToString(take(2, myList)))
-		Assert.areEqual('List()', consToString(take(18, myList)))
+		Assert.isTrue(isEmpty(removeAt(0,List('a'))))
+		var myList = List('a', 'b', 'c', 'd');
+		var acd = removeAt(1, myList);
+		Assert.areEqual(3, size(acd))
+		Assert.areEqual('a', head(acd))
+		Assert.areEqual('d', head(tail(tail(acd))))
+		Assert.areEqual(myList, removeAt(18, myList))
 	}
 });
 
@@ -151,17 +221,15 @@ YAHOO.GEIESLISTS.test.oTestSplitAt = new YAHOO.tool.TestCase({
 YAHOO.GEIESLISTS.test.oTestConsToString = new YAHOO.tool.TestCase({
 	name : "TestConsToString",
 	testConsToString : function() {
-		var myListU = undefined
-		Assert.areEqual('List()', consToString(myListU))
-		var myListA = List()
-		// cannot invoke .toString on an empty List - TODO fix this one!!
-		Assert.areEqual('List()', consToString(myListA))
-		var myListB = List('a')
-		Assert.areEqual(myListB.toString(), 'List(a)')
-		var myList = List('a', 'b', 'd')
-		Assert.areEqual('List(a,b,d)', consToString(myList))
-		var myListZZZ = List('a', 'b', 'd')
-		Assert.areEqual(myListZZZ.toString(), 'List(a,b,d)')
+		Assert.areEqual('List()', consToString(List()))
+		Assert.areEqual('List(a)', List('a').c)
+		
+		Assert.areEqual('List(a,b,d)', consToString(List('a', 'b', 'd')))
+		var listA = List('a')
+		var listAbd = List('a', 'b', 'd')
+		var llist = cons(listA,listAbd)
+		Assert.areEqual('List(List(a),a,b,d)', llist.c)
+		
 	}
 });
 
@@ -190,28 +258,15 @@ YAHOO.GEIESLISTS.test.oTestReverse = new YAHOO.tool.TestCase({
 YAHOO.GEIESLISTS.test.oTestInsert = new YAHOO.tool.TestCase({
 	name : "TestInsert",
 	testInsert : function() {
-
 		var myList = List('b', 'd')
-
 		var insC = insert('c', myList)
 		Assert.areEqual(head(insC), 'b')
 		Assert.areEqual(head(tail(insC)), 'c')
-
 		Assert.areEqual(head(tail(tail(insC))), 'd')
-
 		var insA = insert('a', myList)
 		Assert.areEqual(head(insA), 'a')
-
 		var insZ = insert('z', myList)
 		Assert.areEqual(head(tail(tail(insZ))), 'z')
-	}
-});
-
-YAHOO.GEIESLISTS.test.oTestLast = new YAHOO.tool.TestCase({
-	name : "TestLast",
-	testLast : function() {
-		var myList = List('a', 'b', 'd')
-		Assert.areEqual(last(myList), 'd')
 	}
 });
 
@@ -233,16 +288,6 @@ YAHOO.GEIESLISTS.test.oTestMergeSort = new YAHOO.tool.TestCase({
 	}
 });
 
-YAHOO.GEIESLISTS.test.oTest001 = new YAHOO.tool.TestCase({
-	name : "Test001",
-	testListStuff : function() {
-		var firstList = cons('a', null)
-		var secondList = cons('b', firstList)
-
-		Assert.areEqual(head(firstList), 'a')
-		Assert.areEqual(head(tail(secondList)), 'a')
-	}
-});
 
 YAHOO.util.Event
 		.onDOMReady(function() {
@@ -250,6 +295,16 @@ YAHOO.util.Event
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite = new YAHOO.tool.TestSuite(
 					"YUI Test Suite for Geieslists");
 
+			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
+					.add(YAHOO.GEIESLISTS.test.oTestIsEmpty);
+			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
+					.add(YAHOO.GEIESLISTS.test.oTestIsAtom);
+			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
+					.add(YAHOO.GEIESLISTS.test.oTestCons);
+			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
+					.add(YAHOO.GEIESLISTS.test.oTestList);
+			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
+					.add(YAHOO.GEIESLISTS.test.oTestConsToString);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestArrayToList);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
@@ -267,12 +322,6 @@ YAHOO.util.Event
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestMergeSort);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
-					.add(YAHOO.GEIESLISTS.test.oTestList);
-			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
-					.add(YAHOO.GEIESLISTS.test.oTestConsToString);
-			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
-					.add(YAHOO.GEIESLISTS.test.oTest001);
-			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestInsert);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestSort);
@@ -280,8 +329,6 @@ YAHOO.util.Event
 					.add(YAHOO.GEIESLISTS.test.oTestLast);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestListInit);
-			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
-					.add(YAHOO.GEIESLISTS.test.oTestIsNil);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestConcat);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
