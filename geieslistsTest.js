@@ -65,6 +65,9 @@ YAHOO.GEIESLISTS.test.oTestElementAt = new YAHOO.tool.TestCase({
 YAHOO.GEIESLISTS.test.oTestIsAtom = new YAHOO.tool.TestCase({
 	name : "TestIsAtom",
 	testIsAtom : function() {
+		Assert.isTrue(isAtom('a'))
+		Assert.isTrue(isAtom(12))
+		Assert.isTrue(isAtom(false))
 		var myList = List('a', 'b', 'c', 'd')
 		Assert.isTrue(isAtom(head(myList)))
 		Assert.isFalse(isAtom(tail(myList)))
@@ -120,6 +123,8 @@ YAHOO.GEIESLISTS.test.oTestList = new YAHOO.tool.TestCase({
 		Assert.areEqual('a', head(myList))
 		Assert.areEqual('b', head(tail(myList)))
 		Assert.areEqual('d', head(tail(tail(myList))))
+		var my12 = List(12)
+		Assert.areEqual(12, head(my12))		
 	}
 });
 
@@ -167,22 +172,25 @@ YAHOO.GEIESLISTS.test.oTestArrayToList = new YAHOO.tool.TestCase({
     testArrayToList: function () {
         var myEmptyList = ArrayToList([])
         Assert.isTrue(myEmptyList === EMPTY)
+        Assert.areEqual(234, head(ArrayToList([234])))
+		
+        Assert.areEqual(true, head(ArrayToList([true])))
 
-        var myList = ArrayToList(['d', 'b', 'a'])
+        var myList = ArrayToList(['d', 123, false])
         Assert.areEqual('d', head(myList))
-        Assert.areEqual('b', head(tail(myList)))
-        Assert.areEqual('a', last(myList))
+        Assert.areEqual(123, head(tail(myList)))
+        Assert.areEqual(false, last(myList))
 
         var sorted = msort(myList)
-        Assert.areEqual(head(sorted), 'a')
-        Assert.areEqual(head(tail(sorted)), 'b')
-        Assert.areEqual(last(sorted), 'd')
+        Assert.areEqual(false, head(sorted))
+        Assert.areEqual(123, head(tail(sorted)))
+        Assert.areEqual('d', last(sorted))
 
-        var myLlist = ArrayToList(['d', [['b'], 'a'], []])
+        var myLlist = ArrayToList(['d', [[false], 678], []])
         Assert.areEqual('d', head(myLlist))
-        Assert.areEqual('b', head(head(head(tail(myLlist)))))
-        Assert.areEqual('a', head(tail(head(tail(myLlist)))))
-    }
+        Assert.areEqual(false, head(head(head(tail(myLlist)))))
+        Assert.areEqual(678, head(tail(head(tail(myLlist)))))
+	}
 });
 
 YAHOO.GEIESLISTS.test.oTestLast = new YAHOO.tool.TestCase({
@@ -240,6 +248,8 @@ YAHOO.GEIESLISTS.test.oTestConsToString = new YAHOO.tool.TestCase({
 		var llist = cons(listA,listAbd)
 		Assert.areEqual('List(List(a),a,b,d)', llist.c)
 		
+		Assert.areEqual('List(12)', consToString(List(12)))
+		Assert.areEqual('List(12,List(a,12))', consToString(ArrayToList([12,['a',12]])))
 	}
 });
 

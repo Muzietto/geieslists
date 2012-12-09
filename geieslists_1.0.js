@@ -4,7 +4,7 @@ var nil = EMPTY
 var NIL = EMPTY
 
 function cons(x, y) {
-	if (!x) throw "cannot cons without head";
+	if (x === null || typeof x === "undefined") throw "cannot cons without head";
 	if (typeof(y) !== "function")   // y must be a function at any cost (but this check is 99% safe)
 		throw "cannot cons without a function in the tail";
 	var result = function(w) {
@@ -36,8 +36,8 @@ function List() {
 function ArrayToList(anArray) {
     var bigCons = EMPTY;
     for (var i = anArray.length; i--; ) {
-		// string
-		if (typeof anArray[i] === "string") 
+		// string, number or boolean
+		if (isAtom(anArray[i]))
 			bigCons = cons(anArray[i], bigCons);
 		// else array
 		else bigCons = cons(ArrayToList(anArray[i]), bigCons)
@@ -50,7 +50,7 @@ function isEmpty(list){
 }
 
 function isAtom(sexpr){
-	return (typeof(sexpr) === "string");
+	return (typeof(sexpr) === "string" || typeof(sexpr) === "number" || typeof(sexpr) === "boolean");
 }
 
 function size(list) {
