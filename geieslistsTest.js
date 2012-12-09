@@ -16,13 +16,16 @@ YAHOO.GEIESLISTS.test.oTestIsEmpty = new YAHOO.tool.TestCase({
 	}
 });
 
-YAHOO.GEIESLISTS.test.oTestCons = new YAHOO.tool.TestCase({
-	name : "TestCons",
-	testCons : function() {
+YAHOO.GEIESLISTS.test.oTestConsHeadTail = new YAHOO.tool.TestCase({
+	name : "TestConsHeadTail",
+	testConsHeadTail : function() {
 		// check faulty input handling
-		var listXX = cons('avv','aString')
-		Assert.areEqual('avv', head(listXX))
-		Assert.areEqual(EMPTY, tail(listXX))
+		try{
+			var listXX = cons('avv','aString')
+			Assert.isTrue(false, 'cons without a function in the tail should fail')
+		} catch (err) {
+			Assert.areEqual("cannot cons without a function in the tail", err)
+		}
 		try{
 			var listA = cons(null,EMPTY)
 			Assert.isTrue(false, 'cons without head should fail')
@@ -44,6 +47,9 @@ YAHOO.GEIESLISTS.test.oTestCons = new YAHOO.tool.TestCase({
 		Assert.areEqual(listA, tail(tail(listlA_BA)))
 		Assert.areEqual('a', head(head(listlA_BA)))
 		Assert.isTrue(isEmpty(tail(head(listlA_BA))))
+
+		Assert.isFalse(isEmpty(head(EMPTY)), 'head of EMPTY does not exist')
+		Assert.isFalse(isEmpty(tail(EMPTY)), 'tail of EMPTY does not exist')
 	}
 });
 
@@ -79,12 +85,25 @@ YAHOO.GEIESLISTS.test.oTestTake = new YAHOO.tool.TestCase({
 	name : "TestTake",
 	testTake : function() {
 		var myList = List('a', 'b', 'c', 'd')
-		Assert.areEqual('a', head(take(1, myList)))
-		var take2 = take(2, myList)
+		Assert.areEqual('a', head(take(1, myList))) // List('a')
+		var take2 = take(2, myList)  // List('a','b')
 		Assert.areEqual(2, size(take2))
 		Assert.areEqual('a', head(take2))
 		Assert.areEqual('b', head(tail(take2)))
 		Assert.isTrue(isEmpty(take(18, myList)))
+	}
+});
+
+YAHOO.GEIESLISTS.test.oTestDrop = new YAHOO.tool.TestCase({
+	name : "TestDrop",
+	testDrop : function() {
+		var myList = List('a', 'b', 'c', 'd')
+		Assert.areEqual('b', head(drop(1, myList))) // List(b,c,d)
+		var drop2 = drop(2, myList)  // List(c,d)
+		Assert.areEqual(2, size(drop2))
+		Assert.areEqual('c', head(drop2))
+		Assert.areEqual('d', head(tail(drop2)))
+		Assert.isTrue(isEmpty(drop(18, myList)))
 	}
 });
 
@@ -190,15 +209,6 @@ YAHOO.GEIESLISTS.test.oTestRemoveAt = new YAHOO.tool.TestCase({
 	}
 });
 
-YAHOO.GEIESLISTS.test.oTestDrop = new YAHOO.tool.TestCase({
-	name : "TestDrop",
-	testDrop : function() {
-		var myList = List('a', 'b', 'c', 'd')
-		Assert.areEqual('List(c,d)'.toString(), consToString(drop(2, myList)))
-		Assert.areEqual('List()', consToString(drop(18, myList)))
-	}
-});
-
 YAHOO.GEIESLISTS.test.oTestSplitAt = new YAHOO.tool.TestCase({
 	name : "TestSplitAt",
 	testSplitAt : function() {
@@ -237,7 +247,7 @@ YAHOO.GEIESLISTS.test.oTestConcat = new YAHOO.tool.TestCase({
 	name : "TestConcat",
 	testConcat : function() {
 		var myList1 = List('b', 'd')
-		var myList2 = cons('a', null)
+		var myList2 = cons('a', EMPTY)
 		var conc = concat(myList1, myList2)
 		Assert.areEqual(head(conc), 'b')
 		Assert.areEqual(last(conc), 'a')
@@ -300,7 +310,7 @@ YAHOO.util.Event
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestIsAtom);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
-					.add(YAHOO.GEIESLISTS.test.oTestCons);
+					.add(YAHOO.GEIESLISTS.test.oTestConsHeadTail);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite
 					.add(YAHOO.GEIESLISTS.test.oTestList);
 			YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite

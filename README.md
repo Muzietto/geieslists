@@ -14,18 +14,14 @@ OFFICIAL RELEASE
 ---------------- 
 Official release 1 includes elements from the Little Schemer: it supports nested (aka S-expressions) lists in the two factories and in the basic operators. 
 The goal is to grow up to FULL FUNCTIONAL support of S-expressions in all operators, in order to allow the implementation of every operation 
-contained in the soon-to-come GitHub repository LittleFunkyJavascripter.
-
-Why is all this relevant? please note that e.g. the Little Javascripter of Douglas Crockford is NOT fully functional, for example:
-
-	function cons(a, d) { return [a, d];} <-- I Tawt I Taw a Putty Tat!
-
-For the time being see file littleFunkyJavascripter.js - stay tuned for more.
+contained in the companion repository LittleFunkyJavascripter.
 
 Handling of empty lists is now complete: it all boils down to using EMPTY (a pointless fixed-point evaluation, which actually never gets performed).
 
 A complete test suite using YUI is enclosed. The minimal level of support for S-expressions is shown by the test coverage. What ain't tested
-may still be possible, but you don't know for sure.
+may still be possible, but you can't know for sure.
+
+Whilst debugging, the method <cons>.c shows a pretty print of the current list.
 
 DEBITS AND CREDITS
 ------------------

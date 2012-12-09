@@ -4,13 +4,11 @@ var nil = EMPTY
 var NIL = EMPTY
 
 function cons(x, y) {
+	if (!x) throw "cannot cons without head";
+	if (typeof(y) !== "function")   // y must be a function at any cost (but this check is 99% safe)
+		throw "cannot cons without a function in the tail";
 	var result = function(w) {
-	 if (!x) {
-		 throw "cannot cons without head";
-	 } else {
-		if (typeof(y) !== "function") {y = EMPTY;}   // y must be a function at any cost (but this check is 99% safe)
 		return w(x, y);
-		}
 	};
 	// we  can safely freeze the string representation because cons is immutable 
 	result.c = consToString(result)
@@ -74,9 +72,6 @@ function consToString(cons) {
     return adder(cons, "List(")
 }
 
-function car(cons) { return cons(function(x,y){return x})}
-function cdr(cons) { return cons(function(x,y){return y})}
-
 function last(list) {
     if (isEmpty(tail(list)))
         return head(list)
@@ -84,7 +79,7 @@ function last(list) {
         return last(tail(list))
 }
 
-// all elements except the tail
+// all elements except the last one
 function listInit(list) {
     if (isEmpty(tail(list))) {
         return EMPTY;
@@ -106,12 +101,12 @@ function reverse(list) {
     if (isEmpty(tail(list)))
         return list
     else
-        return concat(reverse(tail(list)), cons(head(list), null))
+        return concat(reverse(tail(list)), cons(head(list), EMPTY))
 }
 
 function insert(elem, orderedList) {
     if (isEmpty(orderedList))
-        return cons(elem, null)
+        return cons(elem, EMPTY)
     else if (elem < head(orderedList))
         return cons(elem, orderedList)
     else
@@ -125,14 +120,14 @@ function sort(list) {
         return insert(head(list), sort(tail(list)))
 }
 
-// elems = absolute number of list elements
-function take(elems, list) {
+// take(2,List(a,b,c,d,e)) --> List(a,b)
+function take(elems, list) { // elems = absolute number of list elements
     if (isEmpty(list) || size(list) === elems) return list
     else return take(elems, listInit(list))
 }
 
-// elems = absolute number of list elements
-function drop(elems, list) {
+// drop(2,List(a,b,c,d,e)) --> List(c,d,e)
+function drop(elems, list) { // elems = absolute number of list elements
     if (isEmpty(list) || elems === 0) return list
     else return drop(elems - 1, tail(list))
 }
