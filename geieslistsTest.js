@@ -221,35 +221,35 @@ YAHOO.GEIESLISTS.test.oTestSplitAt = new YAHOO.tool.TestCase({
 	name : "TestSplitAt",
 	testSplitAt : function() {
 		var myList = List('a', 'b', 'd')
-		Assert.areEqual('List(a,b)', consToString(splitAt(2, myList).v1))
-		Assert.areEqual('List(d)', consToString(splitAt(2, myList).v2))
-		Assert.areEqual('List(a,b,d)', consToString(splitAt(4, myList).v1))		
-		Assert.areEqual('List()', consToString(splitAt(4, myList).v2))
-		Assert.areEqual('List()', consToString(splitAt(0, myList).v1))
-		Assert.areEqual('List(a,b,d)', consToString(splitAt(0, myList).v2))
-		Assert.areEqual('List()', consToString(splitAt(-2, myList).v1))
-		Assert.areEqual('List(a,b,d)', consToString(splitAt(-2, myList).v2))
+		Assert.areEqual('[a,b]', consToString(splitAt(2, myList).v1))
+		Assert.areEqual('[d]', consToString(splitAt(2, myList).v2))
+		Assert.areEqual('[a,b,d]', consToString(splitAt(4, myList).v1))		
+		Assert.areEqual('[]', consToString(splitAt(4, myList).v2))
+		Assert.areEqual('[]', consToString(splitAt(0, myList).v1))
+		Assert.areEqual('[a,b,d]', consToString(splitAt(0, myList).v2))
+		Assert.areEqual('[]', consToString(splitAt(-2, myList).v1))
+		Assert.areEqual('[a,b,d]', consToString(splitAt(-2, myList).v2))
 
 		var myEmptyList = List()
-		Assert.areEqual('List()', consToString(splitAt(4, myEmptyList).v2))
-		Assert.areEqual('List()', consToString(splitAt(4, myEmptyList).v1))
+		Assert.areEqual('[]', consToString(splitAt(4, myEmptyList).v2))
+		Assert.areEqual('[]', consToString(splitAt(4, myEmptyList).v1))
 	}
 });
 
 YAHOO.GEIESLISTS.test.oTestConsToString = new YAHOO.tool.TestCase({
 	name : "TestConsToString",
 	testConsToString : function() {
-		Assert.areEqual('List()', consToString(List()))
-		Assert.areEqual('List(a)', List('a').c)
+		Assert.areEqual('[]', consToString(List()))
+		Assert.areEqual('[a]', List('a').c)
 		
-		Assert.areEqual('List(a,b,d)', consToString(List('a', 'b', 'd')))
+		Assert.areEqual('[a,b,d]', consToString(List('a', 'b', 'd')))
 		var listA = List('a')
 		var listAbd = List('a', 'b', 'd')
 		var llist = cons(listA,listAbd)
-		Assert.areEqual('List(List(a),a,b,d)', llist.c)
+		Assert.areEqual('[[a],a,b,d]', llist.c)
 		
-		Assert.areEqual('List(12)', consToString(List(12)))
-		Assert.areEqual('List(12,List(a,12))', consToString(ArrayToList([12,['a',12]])))
+		Assert.areEqual('[12]', consToString(List(12)))
+		Assert.areEqual('[12,[a,12]]', consToString(ArrayToList([12,['a',12]])))
 	}
 });
 
@@ -261,8 +261,8 @@ YAHOO.GEIESLISTS.test.oTestConcat = new YAHOO.tool.TestCase({
 		var conc = concat(myList1, myList2)
 		Assert.areEqual(head(conc), 'b')
 		Assert.areEqual(last(conc), 'a')
-		Assert.areEqual('List(b,d)', consToString(concat(List(),myList1)))
-		Assert.areEqual('List(b,d)', consToString(concat(myList1,List())))
+		Assert.areEqual('[b,d]', consToString(concat(List(),myList1)))
+		Assert.areEqual('[b,d]', consToString(concat(myList1,List())))
 	}
 });
 
@@ -271,7 +271,7 @@ YAHOO.GEIESLISTS.test.oTestReverse = new YAHOO.tool.TestCase({
 	testReverse : function() {
 		var myList = List('a', 'b', 'd')
 		var revv = reverse(myList)
-		Assert.areEqual('List(d,b,a)', consToString(revv))
+		Assert.areEqual('[d,b,a]', consToString(revv))
 	}
 });
 
@@ -295,7 +295,7 @@ YAHOO.GEIESLISTS.test.oTestSort = new YAHOO.tool.TestCase({
 	testSort : function() {
 		var myList = List('b', 'c', 'z', 'a')
 		var sorted = sort(myList)
-		Assert.areEqual('List(a,b,c,z)',consToString(sorted))
+		Assert.areEqual('[a,b,c,z]',consToString(sorted))
 	}
 });
 
@@ -304,7 +304,7 @@ YAHOO.GEIESLISTS.test.oTestMergeSort = new YAHOO.tool.TestCase({
 	testMergeSort : function() {
 		var myList = List('b', 'c', 'z', 'a')
 		var sorted = msort(myList)
-		Assert.areEqual('List(a,b,c,z)',consToString(sorted))
+		Assert.areEqual('[a,b,c,z]',consToString(sorted))
 	}
 });
 
@@ -363,4 +363,6 @@ YAHOO.util.Event
 
 			YAHOO.tool.TestRunner
 					.add(YAHOO.GEIESLISTS.test.GEIESLISTS_TestSuite);
+					
+			YAHOO.tool.TestRunner.run()
 		});

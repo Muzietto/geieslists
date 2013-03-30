@@ -63,13 +63,13 @@ function size(list) {
 function consToString(cons) {
     var adder = function (curCons, acc) {
         if (isEmpty(curCons))
-            return acc + ")"
+            return acc + "]"
         else if (isAtom(head(curCons)))
             return adder(tail(curCons), acc + head(curCons) + (isEmpty(tail(curCons)) ? "" : ","))
         else
             return adder(tail(curCons), acc + consToString(head(curCons)) + (isEmpty(tail(curCons)) ? "" : ","))
     }
-    return adder(cons, "List(")
+    return adder(cons, "[")
 }
 
 function last(list) {
