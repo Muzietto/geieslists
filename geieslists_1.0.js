@@ -3,6 +3,7 @@ var Nil = EMPTY
 var nil = EMPTY
 var NIL = EMPTY
 
+// cons returns an APPLICATOR OF BINARY FUNCTIONS
 function cons(x, y) {
 	if (x === null || typeof x === "undefined") throw "cannot cons without head";
 	if (typeof(y) !== "function")   // y must be a function at any cost (but this check is 99% safe)
@@ -15,12 +16,14 @@ function cons(x, y) {
 	return result;
 };
 
-function head(list) {
-    return list(function (x, y) { return x; });
+// car returns the APPLICATION of a binary function to an APPLICATOR of binary functions
+function head(cons) {
+    return cons(function (x, y) { return x; });
 };
 
-function tail(list) {
-    return list(function (x, y) { return y; });
+// cdr returns the APPLICATION of a binary function to an APPLICATOR of binary functions
+function tail(cons) {
+    return cons(function (x, y) { return y; });
 };
 
 // WARNING contains mutable vars!
