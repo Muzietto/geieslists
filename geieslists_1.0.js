@@ -73,6 +73,7 @@ function size(list) {
         return 1 + size(tail(list))
 }
 
+// as alternative you may invoke cons.c
 function consToString(cons) {
     var adder = function (curCons, acc) {
         if (isEmpty(curCons))
