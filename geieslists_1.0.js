@@ -36,7 +36,7 @@ function tail(cons) {
     return cons(function (x, y) { return y; });
 };
 
-// WARNING contains mutable vars!
+// WARNING: contains mutable vars!
 function List() {
     var bigCons = EMPTY;
     for (var i = arguments.length; i--; ) {
@@ -45,7 +45,7 @@ function List() {
     return bigCons
 };
 
-// WARNING contains mutable vars!
+// WARNING: contains mutable vars!
 function ArrayToList(anArray) {
     var bigCons = EMPTY;
     for (var i = anArray.length; i--; ) {
