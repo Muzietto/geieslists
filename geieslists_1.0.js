@@ -1,3 +1,13 @@
+/*
+	GEIESLISTS - JS lists
+	Author: Marco Faustinelli (contacts@faustinelli.net)
+	Web: http://faustinelli.net/
+	     http://faustinelli.wordpress.com/
+	Version: 1.0
+
+	The MIT License - Copyright (c) 2012 Geieslists Project
+*/
+
 var EMPTY = function(x){return x;};
 var Nil = EMPTY
 var nil = EMPTY
