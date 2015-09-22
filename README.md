@@ -26,6 +26,10 @@ may still be possible, but you can't know for sure.
 
 Whilst debugging, the method <cons>.c shows a pretty print of the current list.
 
+FOLLOWING UP. LAMBDA CALCULUS
+-----------------------------
+The logical follow-up of thie project is [khepri-lambda](https://github.com/Muzietto/khepri-lambda), which forces however the reader to switch to another, very much expressive, JavaScript dialect.
+
 DEBITS AND CREDITS
 ------------------
 I know this Javascript code is just a bunch of global stuff, but it's not meant to be used as-is in a production environment.
