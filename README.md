@@ -6,7 +6,7 @@ This is a simple implementation of lists as cons(head,tail). Just an exercise wi
 Starting from basic building blocks (cons, head, tail, size, isEmpty, isAtom, two factories called List and ArrayToList plus a stringifier named consToString) 
 a few operations are defined: last, init, concat, reverse, take, drop, elementAt, removeAt, splitAt, sort, msort.
 
-All has started from lesson 5 of the "Functional Programming in Scala" course by Martin Odersky and it contains a port of the
+All this started from lesson 5 of the "Functional Programming in Scala" course by Martin Odersky and it contains a port of the
 examples produced in the lectures 5.2 and 5.3.
 
 This repository is [presented at my blog](http://faustinelli.wordpress.com/2013/08/14/functional-programming-in-javascript-playing-with-lists-cons-car-and-cdr).
