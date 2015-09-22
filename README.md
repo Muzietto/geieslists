@@ -26,9 +26,11 @@ may still be possible, but you can't know for sure.
 
 Whilst debugging, the method <cons>.c shows a pretty print of the current list.
 
-FOLLOWING UP. LAMBDA CALCULUS
+FOLLOWING UP: LAMBDA CALCULUS
 -----------------------------
-The logical follow-up of thie project is [khepri-lambda](https://github.com/Muzietto/khepri-lambda), which forces however the reader to switch to another, very much expressive, JavaScript dialect.
+The logical follow-up of thie project is [khepri-lambda](https://github.com/Muzietto/khepri-lambda), which presents a fairly comprehensive implementation of lambda calculus as a whole.
+
+However, it forces the reader to switch to another, a lot more expressive, JavaScript dialect.
 
 DEBITS AND CREDITS
 ------------------
