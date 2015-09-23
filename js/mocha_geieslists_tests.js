@@ -13,252 +13,232 @@ var expect = chai.expect;
 describe('a fully functional JS implementation of lists', function () {
 
   it('allows manipulation of cons, car/head and cdr/tail', function() {
+    
 		// List(a)
-		var listA = cons('a',EMPTY)
-		Assert.areEqual('a', head(listA))
-		Assert.areEqual(EMPTY, tail(listA))		
+		var listA = cons('a',EMPTY);
+		expect(head(listA)).to.be.equal('a');
+		expect(tail(listA)).to.be.equal(EMPTY);
+    
 		// List(b,a)
-		var listBA = cons('b',listA)
-		Assert.areEqual('b', head(listBA))
-		Assert.areEqual(listA, tail(listBA))		
+		var listBA = cons('b',listA);
+		expect(head(listBA)).to.be.equal('b');
+		expect(tail(listBA)).to.be.equal(listA);
+    
 		// List(List(a),b,a)
-		var listlA_BA = cons(listA,listBA)
-		Assert.areEqual(listA, head(listlA_BA))
-		Assert.areEqual(listBA, tail(listlA_BA))
-		Assert.areEqual(listA, tail(tail(listlA_BA)))
-		Assert.areEqual('a', head(head(listlA_BA)))
-		Assert.isTrue(isEmpty(tail(head(listlA_BA))))
+		var listlA_BA = cons(listA,listBA);
+		expect(head(listlA_BA)).to.be.equal(listA);
+		expect(tail(listlA_BA)).to.be.equal(listBA);
+		expect(tail(tail(listlA_BA))).to.be.equal(listA);
+		expect(head(head(listlA_BA))).to.be.equal('a');
+		expect(isEmpty(tail(head(listlA_BA)))).to.be.ok;
 
-		Assert.isFalse(isEmpty(head(EMPTY)), 'head of EMPTY does not exist')
-		Assert.isFalse(isEmpty(tail(EMPTY)), 'tail of EMPTY does not exist')
+		expect(isEmpty(head(EMPTY))).to.be.not.ok;
+		expect(isEmpty(tail(EMPTY))).to.be.not.ok;
+  });
 
-    expect(isLat(List())).to.be.ok;
-    expect(isLat(List('a','b'))).to.be.ok;
-    expect(isLat(ArrayToList([['a'],'b']))).to.be.not.ok;
-  })
   it('should detect fawlty input', function() {
 		// check faulty input handling
-		try{
-			var listXX = cons('avv','aString')
-			Assert.isTrue(false, 'cons without a function in the tail should fail')
-		} catch (err) {
-			Assert.areEqual("cannot cons without a function in the tail", err)
-		}
-		try{
-			var listA = cons(null,EMPTY)
-			Assert.isTrue(false, 'cons without head should fail')
-		} catch (err) {
-			Assert.areEqual("cannot cons without head", err)
-		}    expect(isLat(List())).to.be.ok;
+    expect(function(){ cons(12, 23); }).to.throw();
+    expect(function(){ cons(null, EMPTY); }).to.throw();
+  });
 
-    expect(isLat(List('a','b'))).to.be.ok;
-    expect(isLat(ArrayToList([['a'],'b']))).to.be.not.ok;
-  })
+  it('features elementAt', function() {
+    var myList = List('a', 'b', 'c', 'd');
+    expect(elementAt(1, myList)).to.be.equal('b');
+    expect(isEmpty(elementAt(18, myList))).to.be.ok;
+  });
 
-    it('features elementAt', function() {
-		var myList = List('a', 'b', 'c', 'd')
-		Assert.areEqual('b', elementAt(1, myList))
-		Assert.isTrue(isEmpty(elementAt(18, myList)))
-    });
-    
   it('features isAtom', function() {
-		Assert.isTrue(isAtom('a'))
-		Assert.isTrue(isAtom(12))
-		Assert.isTrue(isAtom(false))
-		var myList = List('a', 'b', 'c', 'd')
-		Assert.isTrue(isAtom(head(myList)))
-		Assert.isFalse(isAtom(tail(myList)))
+		expect(isAtom('a')).to.be.ok;
+		expect(isAtom(12)).to.be.ok;
+		expect(isAtom(false)).to.be.ok;
+		var myList = List('a', 'b', 'c', 'd');
+		expect(isAtom(head(myList))).to.be.ok;
+		expect(isAtom(tail(myList))).to.be.not.ok;
   });
 
   it('features size', function() {
-		var myList = List('a', 'b', 'd')
-		Assert.areEqual(3, size(myList))
-		var myEmptyList = List()
-		Assert.areEqual(0, size(myEmptyList))
+		var myList = List('a', 'b', 'd');
+		expect(size(myList)).to.be.equal(3);
+		var myEmptyList = List();
+		expect(size(myEmptyList)).to.be.equal(0);
   });
 
   it('features take', function() {
-		var myList = List('a', 'b', 'c', 'd')
-		Assert.areEqual('a', head(take(1, myList))) // List('a')
-		var take2 = take(2, myList)  // List('a','b')
-		Assert.areEqual(2, size(take2))
-		Assert.areEqual('a', head(take2))
-		Assert.areEqual('b', head(tail(take2)))
-		Assert.isTrue(isEmpty(take(18, myList)))
+		var myList = List('a', 'b', 'c', 'd');
+		expect(head(take(1, myList))).to.be.equal('a'); // List('a')
+		var take2 = take(2, myList);  // List('a','b')
+		expect(size(take2)).to.be.equal(2);
+		expect(head(take2)).to.be.equal('a');
+		expect(head(tail(take2))).to.be.equal('b');
+		expect(isEmpty(take(18, myList))).to.be.ok;
   });
 
   it('features drop', function() {
-		var myList = List('a', 'b', 'c', 'd')
-		Assert.areEqual('b', head(drop(1, myList))) // List(b,c,d)
-		var drop2 = drop(2, myList)  // List(c,d)
-		Assert.areEqual(2, size(drop2))
-		Assert.areEqual('c', head(drop2))
-		Assert.areEqual('d', head(tail(drop2)))
-		Assert.isTrue(isEmpty(drop(18, myList)))
+		var myList = List('a', 'b', 'c', 'd');
+		expect(head(drop(1, myList))).to.be.equal('b'); // List(b,c,d)
+		var drop2 = drop(2, myList);  // List(c,d)
+		expect(size(drop2)).to.be.equal(2);
+		expect(head(drop2)).to.be.equal('c');
+		expect(head(tail(drop2))).to.be.equal('d');
+		expect(isEmpty(drop(18, myList))).to.be.ok;
   });
 
   it('features a List constructor', function() {
 		var myEmpty = List();
-		Assert.isTrue(isEmpty(myEmpty))
-		Assert.areEqual(EMPTY, myEmpty)				
-		var myA = List('a')
-		Assert.areEqual('a', head(myA))		
-		Assert.isTrue(isEmpty(tail(myA)))
-		var myList = List('a', 'b', 'd')
-		Assert.areEqual('a', head(myList))
-		Assert.areEqual('b', head(tail(myList)))
-		Assert.areEqual('d', head(tail(tail(myList))))
-		var my12 = List(12)
-		Assert.areEqual(12, head(my12))		
+		expect(isEmpty(myEmpty)).to.be.ok;
+		expect(myEmpty).to.be.equal(EMPTY);
+		var myA = List('a');
+		expect(head(myA)).to.be.equal('a');
+		expect(isEmpty(tail(myA))).to.be.ok;
+		var myList = List('a', 'b', 'd');
+		expect(head(myList)).to.be.equal('a');
+		expect(head(tail(myList))).to.be.equal('b');
+		expect(head(tail(tail(myList)))).to.be.equal('d');
+		var my12 = List(12);
+		expect(head(my12)).to.be.equal(12);
   });
 
   it('features listInit', function() {
-		var myList = List('a', 'b', 'd')
-		var listInitt = listInit(myList)
-		Assert.areEqual(2, size(listInitt))
-		Assert.areEqual('a', head(listInitt))
-		Assert.areEqual('b', head(tail(listInitt)))
+		var myList = List('a', 'b', 'd');
+		var listInitt = listInit(myList);
+		expect(size(listInitt)).to.be.equal(2);
+		expect(head(listInitt)).to.be.equal('a');
+		expect(head(tail(listInitt))).to.be.equal('b');
   });
 
   it('features equalList', function() {
-		var myA = List('a')
-		var myA2 = List('a','b')
-		var myA3 = List('b')
+		var myA = List('a');
+		var myA2 = List('a','b');
+		var myA3 = List('b');
 		var myList = List('a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z')
 		var myList2 = List('a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z', 'a', 'b', 'd', 'a', 'b', 'd', 'x', 'y', 'z')
-		Assert.isTrue(equalList(myList,myList2))
-		Assert.isFalse(equalList(myA,myA2))
-		Assert.isFalse(equalList(myA,myA3))
+		expect(equalList(myList, myList2)).to.be.ok;
+		expect(equalList(myA, myA2)).to.be.not.ok;
+		expect(equalList(myA, myA3)).to.be.not.ok;
   });
 
   it('features equalList2', function() {
-		var myA = List('a')
-		var myA2 = List('a','b')
-		var myA3 = List('b')
-		var myList = List('a', 'b', 'd')
-		var myList2 = List('a', 'b', 'd')
-		Assert.isTrue(equalList2(myList,myList2))
-		Assert.isFalse(equalList2(myA,myA2))
-		Assert.isFalse(equalList2(myA,myA3))
+		var myA = List('a');
+		var myA2 = List('a','b');
+		var myA3 = List('b');
+		var myList = List('a', 'b', 'd');
+		var myList2 = List('a', 'b', 'd');
+		expect(equalList2(myList,myList2)).to.be.ok;
+		expect(equalList2(myA,myA2)).to.be.not.ok;
+		expect(equalList2(myA,myA3)).to.be.not.ok;
   });
 
-  it('features ArrayToList', function() {
-        var myEmptyList = ArrayToList([])
-        Assert.isTrue(myEmptyList === EMPTY)
-        Assert.areEqual(234, head(ArrayToList([234])))
+  it('features a helper function ArrayToList', function() {
+    var myEmptyList = ArrayToList([])
+    expect(myEmptyList === EMPTY).to.be.ok;
+    expect(head(ArrayToList([234]))).to.be.equal(234);
+
+    expect(head(ArrayToList([true]))).to.be.equal(true);
+
+    var myList = ArrayToList(['d', 123, false])
+    expect(head(myList)).to.be.equal('d');
+    expect(head(tail(myList))).to.be.equal(123);
+    expect(last(myList)).to.be.equal(false);
+
+    var sorted = msort(myList)
+    expect(head(sorted)).to.be.equal(false);
+    expect(head(tail(sorted))).to.be.equal(123);
+    expect(last(sorted)).to.be.equal('d');
+
+    var myLlist = ArrayToList(['d', [[false], 678], []])
+    expect(head(myLlist)).to.be.equal('d');
+    expect(head(head(head(tail(myLlist))))).to.be.not.ok;
+    expect(head(tail(head(tail(myLlist))))).to.be.equal(678);
+  });
+
+  it('features a helper function consToString', function() {
+		expect(consToString(List())).to.be.equal('[]');
+		expect(List('a').c).to.be.equal('[a]');
 		
-        Assert.areEqual(true, head(ArrayToList([true])))
-
-        var myList = ArrayToList(['d', 123, false])
-        Assert.areEqual('d', head(myList))
-        Assert.areEqual(123, head(tail(myList)))
-        Assert.areEqual(false, last(myList))
-
-        var sorted = msort(myList)
-        Assert.areEqual(false, head(sorted))
-        Assert.areEqual(123, head(tail(sorted)))
-        Assert.areEqual('d', last(sorted))
-
-        var myLlist = ArrayToList(['d', [[false], 678], []])
-        Assert.areEqual('d', head(myLlist))
-        Assert.areEqual(false, head(head(head(tail(myLlist)))))
-        Assert.areEqual(678, head(tail(head(tail(myLlist)))))
+		expect(consToString(List('a', 'b', 'd'))).to.be.equal('[a,b,d]');
+		var listA = List('a')
+		var listAbd = List('a', 'b', 'd')
+		var llist = cons(listA,listAbd)
+		expect(llist.c).to.be.equal('[[a],a,b,d]');
+		
+		expect(consToString(List(12))).to.be.equal('[12]');
+		expect(consToString(ArrayToList([12,['a',12]]))).to.be.equal('[12,[a,12]]');
   });
 
   it('features last', function() {
-		Assert.areEqual('a', last(List('a')))
-		var myList = List('a', 'b', 'd')
-		Assert.areEqual('d', last(myList))
-        var myLlist = ArrayToList(['d', 'z', ['s', ['b'], 'a']])
-		Assert.areEqual('a', last(last(myLlist)))
+		expect(last(List('a'))).to.be.equal('a');
+		var myList = List('a', 'b', 'd');
+		expect(last(myList)).to.be.equal('d');
+    var myLlist = ArrayToList(['d', 'z', ['s', ['b'], 'a']]);
+		expect(last(last(myLlist))).to.be.equal('a');
   });
 
   it('features removeAt', function() {
-		Assert.isTrue(isEmpty(removeAt(0,List('a'))))
+		expect(isEmpty(removeAt(0, List('a')))).to.be.ok;
 		var myList = List('a', 'b', 'c', 'd');
 		var acd = removeAt(1, myList);
-		Assert.areEqual(3, size(acd))
-		Assert.areEqual('a', head(acd))
-		Assert.areEqual('d', head(tail(tail(acd))))
-		Assert.areEqual(myList, removeAt(18, myList))
+		expect(size(acd)).to.be.equal(3);
+		expect(head(acd)).to.be.equal('a');
+		expect(head(tail(tail(acd)))).to.be.equal('d');
+		expect(removeAt(18, myList)).to.be.equal(myList);
   });
 
   it('features splitAt', function() {
 		var myList = List('a', 'b', 'd')
-		Assert.areEqual('[a,b]', consToString(splitAt(2, myList).v1))
-		Assert.areEqual('[d]', consToString(splitAt(2, myList).v2))
-		Assert.areEqual('[a,b,d]', consToString(splitAt(4, myList).v1))		
-		Assert.areEqual('[]', consToString(splitAt(4, myList).v2))
-		Assert.areEqual('[]', consToString(splitAt(0, myList).v1))
-		Assert.areEqual('[a,b,d]', consToString(splitAt(0, myList).v2))
-		Assert.areEqual('[]', consToString(splitAt(-2, myList).v1))
-		Assert.areEqual('[a,b,d]', consToString(splitAt(-2, myList).v2))
+		expect(consToString(splitAt(2, myList).v1)).to.be.equal('[a,b]');
+		expect(consToString(splitAt(2, myList).v2)).to.be.equal('[d]');
+		expect(consToString(splitAt(4, myList).v1)).to.be.equal('[a,b,d]');
+		expect(consToString(splitAt(4, myList).v2)).to.be.equal('[]');
+		expect(consToString(splitAt(0, myList).v1)).to.be.equal('[]');
+		expect(consToString(splitAt(0, myList).v2)).to.be.equal('[a,b,d]');
+		expect(consToString(splitAt(-2, myList).v1)).to.be.equal('[]');
+		expect(consToString(splitAt(-2, myList).v2)).to.be.equal('[a,b,d]');
 
 		var myEmptyList = List()
-		Assert.areEqual('[]', consToString(splitAt(4, myEmptyList).v2))
-		Assert.areEqual('[]', consToString(splitAt(4, myEmptyList).v1))
-  });
-
-  it('features consToString', function() {
-		Assert.areEqual('[]', consToString(List()))
-		Assert.areEqual('[a]', List('a').c)
-		
-		Assert.areEqual('[a,b,d]', consToString(List('a', 'b', 'd')))
-		var listA = List('a')
-		var listAbd = List('a', 'b', 'd')
-		var llist = cons(listA,listAbd)
-		Assert.areEqual('[[a],a,b,d]', llist.c)
-		
-		Assert.areEqual('[12]', consToString(List(12)))
-		Assert.areEqual('[12,[a,12]]', consToString(ArrayToList([12,['a',12]])))
+		expect(consToString(splitAt(4, myEmptyList).v2)).to.be.equal('[]');
+		expect(consToString(splitAt(4, myEmptyList).v1)).to.be.equal('[]');
   });
 
   it('features concat', function() {
-		var myList1 = List('b', 'd')
-		var myList2 = cons('a', EMPTY)
-		var conc = concat(myList1, myList2)
-		Assert.areEqual(head(conc), 'b')
-		Assert.areEqual(last(conc), 'a')
-		Assert.areEqual('[b,d]', consToString(concat(List(),myList1)))
-		Assert.areEqual('[b,d]', consToString(concat(myList1,List())))
+		var myList1 = List('b', 'd');
+		var myList2 = cons('a', EMPTY);
+		var conc = concat(myList1, myList2);
+		expect(head(conc)).to.be.equal('b');
+		expect(last(conc)).to.be.equal('a');
+		expect(consToString(concat(List(),myList1))).to.be.equal('[b,d]');
+		expect(consToString(concat(myList1,List()))).to.be.equal('[b,d]');
   });
 
   it('features reverse', function() {
-		var myList = List('a', 'b', 'd')
-		var revv = reverse(myList)
-		Assert.areEqual('[d,b,a]', consToString(revv))
+		var myList = List('a', 'b', 'd');
+		var revv = reverse(myList);
+		expect(consToString(revv)).to.be.equal('[d,b,a]');
   });
 
   it('features insert', function() {
-		var myList = List('b', 'd')
-		var insC = insert('c', myList)
-		Assert.areEqual(head(insC), 'b')
-		Assert.areEqual(head(tail(insC)), 'c')
-		Assert.areEqual(head(tail(tail(insC))), 'd')
-		var insA = insert('a', myList)
-		Assert.areEqual(head(insA), 'a')
-		var insZ = insert('z', myList)
-		Assert.areEqual(head(tail(tail(insZ))), 'z')
+		var myList = List('b', 'd');
+		var insC = insert('c', myList);
+		expect(head(insC)).to.be.equal('b');
+		expect(head(tail(insC))).to.be.equal('c');
+		expect(head(tail(tail(insC)))).to.be.equal('d');
+    
+		var insA = insert('a', myList);
+		expect(head(insA)).to.be.equal('a');
+    
+		var insZ = insert('z', myList);
+		expect(head(tail(tail(insZ)))).to.be.equal('z');
   });
 
   it('features sort', function() {
-		var myList = List('b', 'c', 'z', 'a')
-		var sorted = sort(myList)
-		Assert.areEqual('[a,b,c,z]',consToString(sorted))
+		var myList = List('b', 'c', 'z', 'a');
+		var sorted = sort(myList);
+		expect(consToString(sorted)).to.be.equal('[a,b,c,z]');
   });
 
   it('features MergeSort', function() {
-		var myList = List('b', 'c', 'z', 'a')
-		var sorted = msort(myList)
-		Assert.areEqual('[a,b,c,z]',consToString(sorted))
+		var myList = List('b', 'c', 'z', 'a');
+		var sorted = msort(myList);
+		expect(consToString(sorted)).to.be.equal('[a,b,c,z]');
   });
-
-
-  function safeThrow(command, string) {
-    try {
-      command();
-    } catch(err) {
-      expect(err).to.be.equal(string);
-    }
-  }
 });
