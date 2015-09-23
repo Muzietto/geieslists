@@ -9,20 +9,25 @@ a few operations are defined: last, init, concat, reverse, take, drop, elementAt
 All this started from lesson 5 of the "Functional Programming in Scala" course by Martin Odersky and it contains a port of the
 examples produced in the lectures 5.2 and 5.3.
 
+Just clone the project, doubleclick one of the HTML files and there you go...
+
 This repository is [presented at my blog](http://faustinelli.wordpress.com/2013/08/14/functional-programming-in-javascript-playing-with-lists-cons-car-and-cdr).
 
 OFFICIAL RELEASE
 ---------------- 
 Official release 1 includes elements from the Little Schemer: it supports nested (aka S-expressions) lists in the two factories and in the basic operators. 
 The goal is to grow up to FULL FUNCTIONAL support of S-expressions in all operators, in order to allow the implementation of every operation 
-contained in the companion repository LittleFunkyJavascripter.
+contained in the companion repository [LittleFunkyJavascripter](https://github.com/Muzietto/littleFunkyJavascripter).
 
 Handling of empty lists is now complete: it all boils down to using EMPTY (a pointless fixed-point evaluation, which actually never gets performed).
 
-A complete test suite using YUI is enclosed. The minimal level of support for S-expressions is shown by the test coverage. What ain't tested
-may still be possible, but you can't know for sure.
+TESTING SHOWCASE: YUI and Mocha
+-------------------------------
+A complete test suite is enclosed, using two test runners (YUI and Mocha).
 
-Whilst debugging, the method <cons>.c shows a pretty print of the current list.
+The minimal level of support for S-expressions is shown by the test coverage. What ain't tested may still be possible, but you can't know for sure.
+
+During debugging, the method <cons>.c shows a pretty print of the current list.
 
 FOLLOWING UP: LAMBDA CALCULUS
 -----------------------------
