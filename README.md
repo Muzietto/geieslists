@@ -23,7 +23,7 @@ Handling of empty lists is now complete: it all boils down to using EMPTY (a poi
 
 TESTING SHOWCASE: YUI and Mocha
 -------------------------------
-A complete test suite is enclosed, using two test runners (YUI and Mocha).
+A complete test suite in browser page is enclosed, using two test runners (YUI and Mocha).
 
 The minimal level of support for S-expressions is shown by the test coverage. What ain't tested may still be possible, but you can't know for sure.
 
