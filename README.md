@@ -2,12 +2,11 @@ geieslists - RELEASE 1.0
 ========================
 Crisp clear Javascript binary tree lists; no JS arrays whatsoever in the way. Everything is a JS function.
 
-This is a simple implementation of lists as cons(head,tail). Just an exercise with functions.
-Starting from basic building blocks (cons, head, tail, size, isEmpty, isAtom, two factories called List and ArrayToList plus a stringifier named consToString) 
-a few operations are defined: last, init, concat, reverse, take, drop, elementAt, removeAt, splitAt, sort, msort.
+Starting from basic building blocks (`cons`, `head`, `tail`, `size`, `isEmpty`, `isAtom`, two factories called `List` and `ArrayToList` plus a stringifier named `consToString`) 
+This is a simple implementation of lists as `cons(head,tail)`. Just an exercise with functions.
+a few operations are defined: `last`, `init`, `concat`, `reverse`, `take`, `drop`, `elementAt`, `removeAt`, `splitAt`, `sort`, `msort`.
 
-All this started from lesson 5 of the "Functional Programming in Scala" course by Martin Odersky and it contains a port of the
-examples produced in the lectures 5.2 and 5.3.
+All this started from lesson 5 of the "Functional Programming in Scala" course by Martin Odersky and it contains a port of the examples produced in the lectures 5.2 and 5.3.
 
 Just clone the project, doubleclick one of the HTML files and there you go...
 
@@ -19,7 +18,7 @@ Official release 1 includes elements from the Little Schemer: it supports nested
 The goal is to grow up to FULL FUNCTIONAL support of S-expressions in all operators, in order to allow the implementation of every operation 
 contained in the companion repository [LittleFunkyJavascripter](https://github.com/Muzietto/littleFunkyJavascripter).
 
-Handling of empty lists is now complete: it all boils down to using EMPTY (a pointless fixed-point evaluation, which actually never gets performed).
+Handling of empty lists is now complete: it all boils down to using `EMPTY` (a pointless fixed-point evaluation, which actually never gets performed).
 
 TESTING SHOWCASE: YUI and Mocha
 -------------------------------
@@ -43,4 +42,4 @@ I am in debt with:
 - http://blairmitchelmore.com/javascript/cons-car-and-cdr
 - http://dankogai.typepad.com/blog/2006/03/lambda_calculus.html
 
-Any feedback is welcome.
+Every feedback is welcome.
