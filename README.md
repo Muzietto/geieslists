@@ -20,6 +20,11 @@ contained in the companion repository [LittleFunkyJavascripter](https://github.c
 
 Handling of empty lists is now complete: it all boils down to using `EMPTY` (a pointless fixed-point evaluation, which actually never gets performed).
 
+RELEASE 1.1
+-----------
+Release 1.1 is portable: it creates namespace L with all functions from release 1.0, plus a couple more.
+It was prepared in order to support the development of [Geiespictures](https://github.com/Muzietto/geiespictures).
+
 TESTING SHOWCASE: YUI and Mocha
 -------------------------------
 A complete test suite in browser page is enclosed, using two test runners (YUI and Mocha).
