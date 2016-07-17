@@ -12,16 +12,16 @@ Just clone the project, doubleclick one of the HTML files and there you go...
 
 This repository is [presented at my blog](http://faustinelli.wordpress.com/2013/08/14/functional-programming-in-javascript-playing-with-lists-cons-car-and-cdr).
 
-OFFICIAL RELEASE
----------------- 
-Official release 1 includes elements from the Little Schemer: it supports nested (aka S-expressions) lists in the two factories and in the basic operators. 
+OFFICIAL RELEASE 1.0
+--------------------
+Official release 1.0 includes elements from the Little Schemer: it supports nested (aka S-expressions) lists in the two factories and in the basic operators. 
 The goal is to grow up to FULL FUNCTIONAL support of S-expressions in all operators, in order to allow the implementation of every operation 
 contained in the companion repository [LittleFunkyJavascripter](https://github.com/Muzietto/littleFunkyJavascripter).
 
 Handling of empty lists is now complete: it all boils down to using `EMPTY` (a pointless fixed-point evaluation, which actually never gets performed).
 
-RELEASE 1.1
------------
+SNAPSHOT RELEASE 1.1
+--------------------
 Release 1.1 is portable: it creates namespace L with all functions from release 1.0, plus a couple more.
 It was prepared in order to support the development of [Geiespictures](https://github.com/Muzietto/geiespictures).
 
@@ -35,9 +35,12 @@ During debugging, the method <cons>.c shows a pretty print of the current list.
 
 FOLLOWING UP: LAMBDA CALCULUS
 -----------------------------
-The logical follow-up of this project is [khepri-lambda](https://github.com/Muzietto/khepri-lambda), which presents a fairly comprehensive implementation of lambda calculus as a whole.
+The logical follow-up of this project is to present a comprehensive implementation of lambda calculus as a whole.
 
-However, it forces the reader to switch to another, a lot more expressive, JavaScript dialect.
+This has been done in two contexts:
+
+ * [es6-lambda-calculus](https://github.com/Muzietto/es6-lambda-calculus), which uses the EcmaScript 6 arrow notation
+ * [khepri-lambda](https://github.com/Muzietto/khepri-lambda), which brings the reader to yet another, a lot more expressive, JavaScript dialect
 
 DEBITS AND CREDITS
 ------------------
