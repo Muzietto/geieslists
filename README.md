@@ -44,7 +44,9 @@ This has been done in two contexts:
 
 DEBITS AND CREDITS
 ------------------
-I know this Javascript code is just a bunch of global stuff, but it's not meant to be used as-is in a production environment.
+I know release 1.0 is just a bunch of global stuff, but it's not meant to be used as-is in a production environment.
+
+Release 1.1 allows to use the code as a portable library, but it cannot overcome the limits of the call stack size. Use it with care :-)
 
 I am in debt with:
 - http://blairmitchelmore.com/javascript/cons-car-and-cdr
