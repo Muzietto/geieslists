@@ -248,6 +248,7 @@ var L = function() {
         if (isEmpty(tree)) return build_set_helper(tail(list), make_tree(currElement, nil, nil));
         var currEntry = entry(tree);
         if (currElement === currEntry) return buid_set_helper(tail(list), tree);
+        // left_branch is most probably NIL! silly you...
         if (currElement < currEntry) return build_set_helper(tail(list), left_branch(tree));
         if (currElement > currEntry) return build_set_helper(tail(list), right_branch(tree));
         return build_set_helper(tail(list), make_tree(currElement, nil, nil));
