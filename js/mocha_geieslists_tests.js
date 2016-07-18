@@ -5,7 +5,7 @@
 	     http://faustinelli.wordpress.com/
 	Version: 1.0
 
-	The MIT License - Copyright (c) 2012-2015 Geieslists Project
+	The MIT License - Copyright (c) 2012-2018 Geieslists Project
 */
 
 var expect = chai.expect;
