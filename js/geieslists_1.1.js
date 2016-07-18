@@ -232,8 +232,41 @@ var L = function() {
     function first(list) { return head(list); }
     function second(list) { return head(tail(list)); }
     function third(list) { return head(tail(tail(list))); }
+    function fourth(list) { return head(tail(tail(tail(list)))); }
+    function fifth(list) { return head(tail(tail(tail(tail(list))))); }
+
+    function make_tree(entry, left, right) { return ArrayToList([entry,left,right]); }
+    var entry = first;
+    var left_branch = second;
+    var right_branch = third;
+    
+    function build_set_naive(elements) {
+      return build_set_helper(elements, nil);
+      function build_set_helper(list, tree) {
+        if (isEmpty(list)) return tree;
+        var currElement = head(list);
+        if (isEmpty(tree)) return build_set_helper(tail(list), make_tree(currElement, nil, nil));
+        var currEntry = entry(tree);
+        if (currElement === currEntry) return buid_set_helper(tail(list), tree);
+        if (currElement < currEntry) return build_set_helper(tail(list), left_branch(tree));
+        if (currElement > currEntry) return build_set_helper(tail(list), right_branch(tree));
+        return build_set_helper(tail(list), make_tree(currElement, nil, nil));
+      }
+    }
+
+    function element_of_set(x, set) {
+      if (isEmpty(set)) return false;
+      if (x === entry(set)) return true;
+      if (x < entry(set)) return element_of_set(x, left_branch(set));
+      if (x > entry(set)) return element_of_set(x, right_branch(set));
+    }
 
     return {
+        make_tree: make_tree,
+        entry: entry,
+        left_branch: left_branch,
+        right_branch: right_branch,
+        build_set_naive: build_set_naive,
         nil: nil,
         cons: cons,
         car: head,
