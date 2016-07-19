@@ -9,6 +9,7 @@
 */
 var L = function() {
     var EMPTY = function(x){return x;};
+    EMPTY.c = '[]';
     var Nil = EMPTY
     var nil = EMPTY
     var NIL = EMPTY
@@ -236,24 +237,44 @@ var L = function() {
     function fifth(list) { return head(tail(tail(tail(tail(list))))); }
 
     function make_tree(entry, left, right) { return ArrayToList([entry,left,right]); }
+
     var entry = first;
     var left_branch = second;
     var right_branch = third;
-    
+
+    function depth(tree) {
+      if (isEmpty(tree)) return 0;
+      return 1 + Math.max(depth(left_branch(tree)), depth(right_branch(tree)));
+    }
+
     function build_set_naive(elements) {
       return build_set_helper(elements, nil);
       function build_set_helper(list, tree) {
         if (isEmpty(list)) return tree;
         if (element_of_set(head(list), tree)) return build_set_helper(tail(list), tree);
-        return build_set_helper(tail(list), builder(head(list), tree));
-        
-        function builder(x, tree) {
-          if (isEmpty(tree)) return make_tree(x, nil, nil);
-          var currEntry = entry(tree);
-          if (x < currEntry) return make_tree(currEntry, builder(x, left_branch(tree)), right_branch(tree));
-          if (x > currEntry) return make_tree(currEntry, left_branch(tree), builder(x, right_branch(tree)));
-        }
+        return build_set_helper(tail(list), adjoin_set(head(list), tree));
       }
+    }
+    
+    function tree_to_list1(tree) {
+      if (isEmpty(tree)) return nil;
+      return concat(tree_to_list1(left_branch(tree)),cons(entry(tree),tree_to_list1(right_branch(tree))));
+    }
+
+    function tree_to_list2(tree) {
+      return reverse(tree_to_list_helper(tree, nil));
+      
+      function tree_to_list_helper(tree, list) {
+        if (isEmpty(tree)) return list;
+        return tree_to_list_helper(right_branch(tree), tree_to_list_helper(left_branch(tree),cons(entry(tree),list)));
+      }
+    }
+
+    function adjoin_set(x, set) {
+      if (isEmpty(set)) return make_tree(x, nil, nil);
+      var currEntry = entry(set);
+      if (x < currEntry) return make_tree(currEntry, adjoin_set(x, left_branch(set)), right_branch(set));
+      if (x > currEntry) return make_tree(currEntry, left_branch(set), adjoin_set(x, right_branch(set)));
     }
 
     function element_of_set(x, set) {
@@ -262,14 +283,37 @@ var L = function() {
       if (x < entry(set)) return element_of_set(x, left_branch(set));
       if (x > entry(set)) return element_of_set(x, right_branch(set));
     }
+    
+    function build_balanced_tree(elements) {
+      return head(partial_tree(sort(elements),size(elements)));
+      
+      function partial_tree(elts, n) {
+        if (n === 0) return cons(nil, elts);
+        var left_size = Math.floor((n-1)/2);
+        var left_result = partial_tree(elts, left_size);
+        var left_tree = head(left_result);
+        var non_left_elts = tail(left_result);
+        var right_size = n - (left_size+1);
+        var this_entry = head(non_left_elts);
+        var right_result = partial_tree(tail(non_left_elts),right_size);
+        var right_tree = head(right_result);
+        var remaining_elts = tail(right_result);
+        return cons(make_tree(this_entry,left_tree,right_tree),remaining_elts);
+      }
+    }
 
     return {
         make_tree: make_tree,
         entry: entry,
         left_branch: left_branch,
         right_branch: right_branch,
+        depth: depth,
         build_set_naive: build_set_naive,
-		element_of_set: element_of_set,
+        element_of_set: element_of_set,
+        adjoin_set: adjoin_set,
+        tree_to_list1: tree_to_list1,
+        tree_to_list2: tree_to_list2,
+        build_balanced_tree: build_balanced_tree,
         nil: nil,
         cons: cons,
         car: head,
