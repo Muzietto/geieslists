@@ -244,14 +244,15 @@ var L = function() {
       return build_set_helper(elements, nil);
       function build_set_helper(list, tree) {
         if (isEmpty(list)) return tree;
-        var currElement = head(list);
-        if (isEmpty(tree)) return build_set_helper(tail(list), make_tree(currElement, nil, nil));
-        var currEntry = entry(tree);
-        if (currElement === currEntry) return buid_set_helper(tail(list), tree);
-        // left_branch is most probably NIL! silly you...
-        if (currElement < currEntry) return build_set_helper(tail(list), left_branch(tree));
-        if (currElement > currEntry) return build_set_helper(tail(list), right_branch(tree));
-        return build_set_helper(tail(list), make_tree(currElement, nil, nil));
+        if (element_of_set(head(list), tree)) return build_set_helper(tail(list), tree);
+        return build_set_helper(tail(list), builder(head(list), tree));
+        
+        function builder(x, tree) {
+          if (isEmpty(tree)) return make_tree(x, nil, nil);
+          var currEntry = entry(tree);
+          if (x < currEntry) return make_tree(currEntry, builder(x, left_branch(tree)), right_branch(tree));
+          if (x > currEntry) return make_tree(currEntry, left_branch(tree), builder(x, right_branch(tree)));
+        }
       }
     }
 
@@ -268,6 +269,7 @@ var L = function() {
         left_branch: left_branch,
         right_branch: right_branch,
         build_set_naive: build_set_naive,
+		element_of_set: element_of_set,
         nil: nil,
         cons: cons,
         car: head,
