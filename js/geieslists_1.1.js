@@ -358,6 +358,29 @@ var L = function() {
         return -1;
       }
     }
+    
+    function dictionaryH(string) {
+      return foldl(
+        function(acc, x) {
+          if (inDictionary(x, acc)) return increaseCount(x, acc);
+          else return cons(ArrayToList([[x], 1]), acc);
+        },
+        nil,
+        ArrayToList(string.split('').filter(function(x){return x !== ' ';})));
+
+      // TODO - integrate with isMember by using a comparator
+      function inDictionary(x, dict) {
+        if (isEmpty(dict)) return false;
+        if (x === head(head(head(dict)))) return true;
+        return inDictionary(x, tail(dict));
+      }
+      function increaseCount(x, dict) {
+        return map(dict, function(item) {
+          if (x === head(first(item))) return ArrayToList([first(item), second(item) + 1]);
+          else return item;
+        });
+      };
+    }
 
     return {
         make_tree: make_tree,
@@ -373,6 +396,7 @@ var L = function() {
         build_balanced_tree: build_balanced_tree,
         decodeH: decodeH,
         buildH: buildH,
+        dictionaryH, dictionaryH,
         nil: nil,
         cons: cons,
         car: head,
