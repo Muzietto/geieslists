@@ -75,8 +75,8 @@ describe('Implementing SICP chapter 2 using Geieslists requires', function () {
     });
 
   it('a function to build sets as balanced trees', function() {
-    var gigio = L.build_balanced_tree(L.ArrayToList([/*'a','b',*/'c','d','e','f']));
-    debugger;
+    //var gigio = L.build_balanced_tree(L.ArrayToList([/*'a','b',*/'c','d','e','f']));
+    //debugger;
     expect(L.build_balanced_tree(L.ArrayToList(['a'])).c).to.be.equal('[a,[],[]]');
     expect(L.build_balanced_tree(L.ArrayToList(['a','b'])).c).to.be.equal('[a,[],[b,[],[]]]');
     expect(L.build_balanced_tree(L.ArrayToList(['b','a'])).c).to.be.equal('[a,[],[b,[],[]]]');
@@ -89,6 +89,23 @@ describe('Implementing SICP chapter 2 using Geieslists requires', function () {
     L.ArrayToList(['s','u','b','d','e','r','m','a','t','o','g','l','y','p','h','i','c'])))).to.be.equal(10);
     expect(L.depth(L.build_balanced_tree(
     L.ArrayToList(['s','u','b','d','e','r','m','a','t','o','g','l','y','p','h','i','c'])))).to.be.equal(5);
+  });
+
+  it('a function to navigate Huffman trees', function() {
+    var a = L.ArrayToList([['a'],6,[],[]]);
+    var b = L.ArrayToList([['b'],3,[],[]]);
+    var c = L.ArrayToList([['c'],1,[],[]]);
+    var d = L.ArrayToList([['d'],1,[],[]]);
+    var e = L.ArrayToList([['e'],2,[],[]]);
+    var cd = L.ArrayToList([['c','d'],2,c,d]);
+    var cde = L.ArrayToList([['c','d','e'],4,cd,e]);
+    var bcde = L.ArrayToList([['b','c','d','e'],7,b,cde]);
+    var abcde = L.ArrayToList([['a','b','c','d','e'],13,a,bcde]);
+
+    expect(L.decodeH('0',abcde)).to.be.equal('a');
+    expect(L.decodeH('10',abcde)).to.be.equal('b');
+    expect(L.decodeH('1101',abcde)).to.be.equal('d');
+    
   });
 
 });
