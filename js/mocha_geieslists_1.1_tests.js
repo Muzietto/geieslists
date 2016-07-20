@@ -195,6 +195,6 @@ describe('Implementing SICP chapter 2 using Geieslists requires', function () {
     expect(L.dictionaryH('a b').c).to.be.equal('[[[b],1],[[a],1]]');
     expect(L.dictionaryH('aba').c).to.be.equal('[[[b],1],[[a],2]]');
     expect(L.dictionaryH('abacba').c).to.be.equal('[[[c],1],[[b],2],[[a],3]]');
-    expect(L.dictionaryH('The quick brown fox jumps over the lazy dog').c).to.be.equal('[]');
+    expect(L.dictionaryH('The quick brown fox jumps over the lazy dog').c).to.be.equal('[[[g],1],[[d],1],[[y],1],[[z],1],[[a],1],[[l],1],[[t],1],[[v],1],[[s],1],[[p],1],[[m],1],[[j],1],[[x],1],[[f],1],[[n],1],[[w],1],[[o],4],[[r],2],[[b],1],[[k],1],[[c],1],[[i],1],[[u],2],[[q],1],[[e],3],[[h],2],[[T],1]]');
   });
 });
