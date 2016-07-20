@@ -187,4 +187,14 @@ describe('Implementing SICP chapter 2 using Geieslists requires', function () {
     var symbols_abcde = L.ArrayToList([as,bs,cs,ds,es]);
     expect(L.buildH(symbols_abcde).c).to.be.equal(abcde.c);    
   });
+
+  it('a function to build unordered Huffman dictionaries', function() {
+    expect(L.dictionaryH('a').c).to.be.equal('[[[a],1]]');
+    expect(L.dictionaryH('a ').c).to.be.equal('[[[a],1]]');
+    expect(L.dictionaryH('ab').c).to.be.equal('[[[b],1],[[a],1]]');
+    expect(L.dictionaryH('a b').c).to.be.equal('[[[b],1],[[a],1]]');
+    expect(L.dictionaryH('aba').c).to.be.equal('[[[b],1],[[a],2]]');
+    expect(L.dictionaryH('abacba').c).to.be.equal('[[[c],1],[[b],2],[[a],3]]');
+    expect(L.dictionaryH('The quick brown fox jumps over the lazy dog').c).to.be.equal('[]');
+  });
 });
