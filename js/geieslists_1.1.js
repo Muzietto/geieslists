@@ -255,7 +255,7 @@ var L = function() {
         return build_set_helper(tail(list), adjoin_set(head(list), tree));
       }
     }
-    
+
     function tree_to_list1(tree) {
       if (isEmpty(tree)) return nil;
       return concat(tree_to_list1(left_branch(tree)),cons(entry(tree),tree_to_list1(right_branch(tree))));
@@ -283,10 +283,10 @@ var L = function() {
       if (x < entry(set)) return element_of_set(x, left_branch(set));
       if (x > entry(set)) return element_of_set(x, right_branch(set));
     }
-    
+
     function build_balanced_tree(elements) {
       return head(partial_tree(sort(elements),size(elements)));
-      
+
       function partial_tree(elts, n) {
         if (n === 0) return cons(nil, elts);
         var left_size = Math.floor((n-1)/2);

@@ -75,7 +75,7 @@ describe('Implementing SICP chapter 2 using Geieslists requires', function () {
     });
 
   it('a function to build sets as balanced trees', function() {
-    var gigio = L.build_balanced_tree(L.ArrayToList(['a','b','c','d','e','f']));
+    var gigio = L.build_balanced_tree(L.ArrayToList([/*'a','b',*/'c','d','e','f']));
     debugger;
     expect(L.build_balanced_tree(L.ArrayToList(['a'])).c).to.be.equal('[a,[],[]]');
     expect(L.build_balanced_tree(L.ArrayToList(['a','b'])).c).to.be.equal('[a,[],[b,[],[]]]');
