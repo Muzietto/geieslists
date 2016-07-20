@@ -10,20 +10,20 @@
 var L = function() {
     var EMPTY = function(x){return x;};
     EMPTY.c = '[]';
-    var Nil = EMPTY
-    var nil = EMPTY
-    var NIL = EMPTY
+    var Nil = EMPTY;
+    var nil = EMPTY;
+    var NIL = EMPTY;
 
     // cons returns an APPLICATOR OF BINARY FUNCTIONS
     function cons(x, y) {
-        if (x === null || typeof x === "undefined") throw "cannot cons without head";
-        if (typeof(y) !== "function")   // y must be a function at any cost (but this check is 99% safe)
-            throw "cannot cons without a function in the tail";
+        if (x === null || typeof x === 'undefined') throw new Error('cannot cons without head');
+        if (typeof(y) !== 'function')   // y must be a function at any cost (but this check is 99% safe)
+            throw new Error('cannot cons without a function in the tail');
         var result = function(w) {
             return w(x, y);
         };
         // we  can safely freeze the string representation because cons is immutable
-        result.c = consToString(result)
+        result.c = consToString(result);
         return result;
     };
 
@@ -55,7 +55,7 @@ var L = function() {
             if (!Array.isArray(anArray[i]))
                 bigCons = cons(anArray[i], bigCons);
             // else array
-            else bigCons = cons(ArrayToList(anArray[i]), bigCons)
+            else bigCons = cons(ArrayToList(anArray[i]), bigCons);
         }
         return bigCons
     }
@@ -70,29 +70,29 @@ var L = function() {
 
     function size(list) {
         if (isEmpty(list))
-            return 0
+            return 0;
         else
-            return 1 + size(tail(list))
+            return 1 + size(tail(list));
     }
 
     // as alternative you may invoke cons.c
     function consToString(cons) {
         var adder = function (curCons, acc) {
             if (isEmpty(curCons))
-                return acc + "]"
+                return acc + "]";
             else if (isAtom(head(curCons)))
-                return adder(tail(curCons), acc + head(curCons) + (isEmpty(tail(curCons)) ? "" : ","))
+                return adder(tail(curCons), acc + head(curCons) + (isEmpty(tail(curCons)) ? "" : ","));
             else
-                return adder(tail(curCons), acc + consToString(head(curCons)) + (isEmpty(tail(curCons)) ? "" : ","))
+                return adder(tail(curCons), acc + consToString(head(curCons)) + (isEmpty(tail(curCons)) ? "" : ","));
         }
         return adder(cons, "[")
     }
 
     function last(list) {
         if (isEmpty(tail(list)))
-            return head(list)
+            return head(list);
         else
-            return last(tail(list))
+            return last(tail(list));
     }
 
     // all elements except the last one
@@ -105,19 +105,19 @@ var L = function() {
     }
 
     function concat(list1, list2) {
-        if (isEmpty(list1)) return list2
-        else if (isEmpty(list2)) return list1
+        if (isEmpty(list1)) return list2;
+        else if (isEmpty(list2)) return list1;
         else if (isEmpty(tail(list1)))
-            return cons(head(list1), list2)
+            return cons(head(list1), list2);
         else
-            return cons(head(list1), concat(tail(list1), list2))
+            return cons(head(list1), concat(tail(list1), list2));
     }
 
     function reverse(list) {
         if (isEmpty(tail(list)))
-            return list
+            return list;
         else
-            return concat(reverse(tail(list)), cons(head(list), EMPTY))
+            return concat(reverse(tail(list)), cons(head(list), EMPTY));
     }
 
     function insert(elem, orderedList, comparator) {
@@ -172,10 +172,10 @@ var L = function() {
     }
 
     // it means "split after given element"
-    function splitAt(elem,list) {
+    function splitAt(elem, list) {
         if (elem<1) {
             return ({v1:List(),v2:list});
-        } else if (elem>size(list)) {
+        } else if (elem > size(list)) {
             return ({v1:list,v2:List()});
         } else {
         var splitT = function (tuple) {
@@ -234,6 +234,11 @@ var L = function() {
 
     // fold left
     function foldl(s, a, xs) { return isEmpty(xs) ? a : foldl(s, s(a, head(xs)), tail(xs)); }
+    
+    function map(xs, mapper) {
+      mapper = mapper || EMPTY;
+      return reverse(foldl(function(acc, x) { return cons(mapper(x), acc); }, nil, xs));
+    }
 
     function first(list) { return head(list); }
     function second(list) { return head(tail(list)); }
@@ -290,49 +295,68 @@ var L = function() {
     }
 
     function build_balanced_tree(elements) {
-      return head(partial_tree(sort(elements),size(elements)));
+      return head(partial_tree(sort(elements), size(elements)));
 
       function partial_tree(elts, n) {
         if (n === 0) return cons(nil, elts);
-        var left_size = Math.floor((n-1)/2);
+        var left_size = Math.floor((n - 1) / 2);
         var left_result = partial_tree(elts, left_size);
         var left_tree = head(left_result);
         var non_left_elts = tail(left_result);
         var right_size = n - (left_size+1);
         var this_entry = head(non_left_elts);
-        var right_result = partial_tree(tail(non_left_elts),right_size);
+        var right_result = partial_tree(tail(non_left_elts), right_size);
         var right_tree = head(right_result);
         var remaining_elts = tail(right_result);
-        return cons(make_tree(this_entry,left_tree,right_tree),remaining_elts);
+        return cons(make_tree(this_entry, left_tree,right_tree), remaining_elts);
       }
     }
-    
+
     function decodeH (encoded,tree) {
       var symbols = first;
       var weight = second;
       var left_branch = third;
       var right_branch = fourth;
-      
-      var bits = ArrayToList(encoded.split('').filter(function(x) { return (x==='1'||x==='0');}));
-      return decode(bits,tree);
-      
+
+      var bits = ArrayToList(encoded.split('').filter(function(x) { return (x === '1' || x === '0');}));
+      return decode(bits, tree);
+
       function decode(bits,tree) {
-        if (size(bits)===0) {
-          if (size(head(tree))===1) {
+        if (size(bits) === 0) {
+          if (size(head(tree)) === 1) {
             return head(head(tree));
           } else {
             throw new Error('non-existing encoding 1!');
           }
         }
         var currentBit = head(bits);
-        if (currentBit==='0') return decode(tail(bits),left_branch(tree));
-        if (currentBit==='1') return decode(tail(bits),right_branch(tree));
+        if (currentBit === '0') return decode(tail(bits), left_branch(tree));
+        if (currentBit === '1') return decode(tail(bits), right_branch(tree));
         throw new Error('non-existing encoding 2!')
       }
     }
-    
+
     function buildH(symbols) {
-      return nil;
+      var enrichedSymbols = map(symbols, function(symbol) {
+        return concat(symbol, ArrayToList([[],[]]));
+      });
+      return HtreeBuilder(enrichedSymbols);      
+      
+      function HtreeBuilder(nodes) {
+        if (size(nodes) === 1) return head(nodes);
+        var sortedNodes = sort(nodes, symbolsComparator);
+        return HtreeBuilder(cons(make_parentH(first(sortedNodes), second(sortedNodes)), tail(tail(sortedNodes))));
+      }
+      function make_parentH(sa, sb) {
+        var symbolsA = first(sa), symbolsB = first(sb), weightA = second(sa), weightB = second(sb);
+        return ArrayToList([concat(symbolsA, symbolsB), weightA + weightB, sa, sb]);
+      }
+      function symbolsComparator(sa, sb) {
+        var weightA = second(sa), weightB = second(sb);
+        if (weightA === weightB) return 0;
+        if (weightA > weightB) return 1;
+        return -1;
+      }
     }
 
     return {
@@ -375,10 +399,13 @@ var L = function() {
         splitAt: splitAt,
         equalList: equalList,
         msort: msort,
+        map: map,
         fold: fold,
         foldl: foldl,
         first: first,
         second: second,
-        third: third
+        third: third,
+        fourth: fourth,
+        fifth: fifth
     }
 }();
