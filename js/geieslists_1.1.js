@@ -120,39 +120,44 @@ var L = function() {
             return concat(reverse(tail(list)), cons(head(list), EMPTY))
     }
 
-    function insert(elem, orderedList) {
-        if (isEmpty(orderedList))
-            return cons(elem, EMPTY)
-        else if (elem < head(orderedList))
-            return cons(elem, orderedList)
-        else
-            return cons(head(orderedList), insert(elem, tail(orderedList)))
+    function insert(elem, orderedList, comparator) {
+      comparator = comparator || function(a, b) {
+        if (a === b) return 0;
+        if (a < b) return -1;
+        return 1;
+      };
+      if (isEmpty(orderedList))
+          return cons(elem, EMPTY);
+      else if (comparator(elem, head(orderedList)) <= 0)
+          return cons(elem, orderedList);
+      else
+          return cons(head(orderedList), insert(elem, tail(orderedList), comparator));
     }
 
-    function sort(list) {
+    function sort(list, comparator) {
         if (isEmpty(tail(list)))
             return list
         else
-            return insert(head(list), sort(tail(list)))
+            return insert(head(list), sort(tail(list), comparator), comparator);
     }
 
     // take(2,List(a,b,c,d,e)) --> List(a,b)
     function take(elems, list) { // elems = absolute number of list elements
-        if (isEmpty(list) || size(list) === elems) return list
-        else return take(elems, listInit(list))
+        if (isEmpty(list) || size(list) === elems) return list;
+        else return take(elems, listInit(list));
     }
 
     // drop(2,List(a,b,c,d,e)) --> List(c,d,e)
     function drop(elems, list) { // elems = absolute number of list elements
-        if (isEmpty(list) || elems === 0) return list
-        else return drop(elems - 1, tail(list))
+        if (isEmpty(list) || elems === 0) return list;
+        else return drop(elems - 1, tail(list));
     }
 
     // index starts from 0
     function elementAt(index, list) {
-        if (isEmpty(list)) return list
-        else if (index === 0) return head(list)
-        else return elementAt(index - 1, tail(list))
+        if (isEmpty(list)) return list;
+        else if (index === 0) return head(list);
+        else return elementAt(index - 1, tail(list));
     }
 
     function isMember(atom, list) {
@@ -162,8 +167,8 @@ var L = function() {
 
     // index starts from 0
     function removeAt(index, list) {
-        if (index < 0 || index > size(list)) return list
-        return concat(take(index, list), drop(index + 1, list))
+        if (index < 0 || index > size(list)) return list;
+        return concat(take(index, list), drop(index + 1, list));
     }
 
     // it means "split after given element"
@@ -325,6 +330,10 @@ var L = function() {
         throw new Error('non-existing encoding 2!')
       }
     }
+    
+    function buildH(symbols) {
+      return nil;
+    }
 
     return {
         make_tree: make_tree,
@@ -339,6 +348,7 @@ var L = function() {
         tree_to_list2: tree_to_list2,
         build_balanced_tree: build_balanced_tree,
         decodeH: decodeH,
+        buildH: buildH,
         nil: nil,
         cons: cons,
         car: head,
