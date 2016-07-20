@@ -59,11 +59,14 @@ describe('Implementing SICP chapter 2 using Geieslists requires', function () {
 		expect(sorted.c).to.be.equal('[z,c,b,a]');
   });
 
-  it('definitions for fold left and right', function() {
+  it('an implementation for map', function() {
+    expect(L.map(L.ArrayToList([1,3,5])).c).to.be.equal('[1,3,5]');
+    expect(L.map(L.ArrayToList([1,3,5]),function(x){return x+1}).c).to.be.equal('[2,4,6]');
+  });
 
-    expect(L.fold((x,ys)=>x+ys,0,L.ArrayToList([1,3,5]))).to.be.equal(9);
-    expect(L.foldl((acc,x)=>acc+x,0,L.ArrayToList([1,3,6]))).to.be.equal(10);
-
+  it('implementations for fold left and right', function() {
+    expect(L.fold(function(x,ys){return x+ys},0,L.ArrayToList([1,3,5]))).to.be.equal(9);
+    expect(L.foldl(function(acc,x){return acc+x},0,L.ArrayToList([1,3,6]))).to.be.equal(10);
   });
 
   it('a function to build sets as trees in a naive manner', function() {
@@ -166,11 +169,11 @@ describe('Implementing SICP chapter 2 using Geieslists requires', function () {
     var bcde = L.ArrayToList([['b','c','d','e'],7,b,cde]);
     var abcde = L.ArrayToList([['a','b','c','d','e'],13,a,bcde]);
     
-    var as = ['a',6];
-    var bs = ['b',3];
-    var cs = ['c',1];
-    var ds = ['d',1];
-    var es = ['e',2];
+    var as = [['a'],6];
+    var bs = [['b'],3];
+    var cs = [['c'],1];
+    var ds = [['d'],1];
+    var es = [['e'],2];
     
     var symbols_cd = L.ArrayToList([cs,ds]);
     expect(L.buildH(symbols_cd).c).to.be.equal(cd.c);
