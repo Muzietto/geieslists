@@ -301,6 +301,30 @@ var L = function() {
         return cons(make_tree(this_entry,left_tree,right_tree),remaining_elts);
       }
     }
+    
+    function decodeH (encoded,tree) {
+      var symbols = first;
+      var weight = second;
+      var left_branch = third;
+      var right_branch = fourth;
+      
+      var bits = ArrayToList(encoded.split('').filter(function(x) { return (x==='1'||x==='0');}));
+      return decode(bits,tree);
+      
+      function decode(bits,tree) {
+        if (size(bits)===0) {
+          if (size(head(tree))===1) {
+            return head(head(tree));
+          } else {
+            throw new Error('non-existing encoding 1!');
+          }
+        }
+        var currentBit = head(bits);
+        if (currentBit==='0') return decode(tail(bits),left_branch(tree));
+        if (currentBit==='1') return decode(tail(bits),right_branch(tree));
+        throw new Error('non-existing encoding 2!')
+      }
+    }
 
     return {
         make_tree: make_tree,
@@ -314,6 +338,7 @@ var L = function() {
         tree_to_list1: tree_to_list1,
         tree_to_list2: tree_to_list2,
         build_balanced_tree: build_balanced_tree,
+        decodeH: decodeH,
         nil: nil,
         cons: cons,
         car: head,
