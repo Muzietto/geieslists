@@ -12,11 +12,61 @@ var expect = chai.expect;
 
 describe('Implementing SICP chapter 2 using Geieslists requires', function () {
 
-  it('definitions for fold left and right', function() {
+  it('an implementation of insert that contemplates the optional injection of a comparator', function() {
+		var bd = L.List('b', 'd');
 
-    expect(L.fold((x,ys)=>x+ys,0,L.ArrayToList([1,3,5]))).to.be.equal(9);
-    expect(L.foldl((acc,x)=>acc+x,0,L.ArrayToList([1,3,6]))).to.be.equal(10);
+		var insC = L.insert('c', bd);
+		expect(insC.c).to.be.equal('[b,c,d]');
 
+		var insA = L.insert('a', bd);
+		expect(insA.c).to.be.equal('[a,b,d]');
+
+		var insZ = L.insert('z', bd);
+		expect(insZ.c).to.be.equal('[b,d,z]');
+  });
+
+  it('an implementation of sort that contemplates the optional injection of a comparator', function() {
+		var bcza = L.List('b', 'c', 'z', 'a');
+		var sorted = L.sort(bcza);
+		expect(sorted.c).to.be.equal('[a,b,c,z]');
+  });
+
+  it('an implementation of insert that accepts a comparator', function() {
+		var db = L.List('d', 'b');
+		var insC = L.insert('c', db, inverter);
+		expect(insC.c).to.be.equal('[d,c,b]');
+    
+		var insA = L.insert('a', db, inverter);
+		expect(insA.c).to.be.equal('[d,b,a]');
+    
+		var insZ = L.insert('z', db, inverter);
+		expect(insZ.c).to.be.equal('[z,d,b]');
+
+    function inverter(a,b) {
+      if (a===b) return 0;
+      if (a>b) return -1;
+      return 1;
+    }
+  });
+
+  it('an implementation of sort that accepts a comparator', function() {
+		var bcza = L.List('b', 'c', 'z', 'a');
+		var sorted = L.sort(bcza, function(a,b) {
+      if (a===b) return 0;
+      if (a>b) return -1;
+      return 1;
+    });
+		expect(sorted.c).to.be.equal('[z,c,b,a]');
+  });
+
+  it('an implementation for map', function() {
+    expect(L.map(L.ArrayToList([1,3,5])).c).to.be.equal('[1,3,5]');
+    expect(L.map(L.ArrayToList([1,3,5]),function(x){return x+1}).c).to.be.equal('[2,4,6]');
+  });
+
+  it('implementations for fold left and right', function() {
+    expect(L.fold(function(x,ys){return x+ys},0,L.ArrayToList([1,3,5]))).to.be.equal(9);
+    expect(L.foldl(function(acc,x){return acc+x},0,L.ArrayToList([1,3,6]))).to.be.equal(10);
   });
 
   it('a function to build sets as trees in a naive manner', function() {
@@ -108,4 +158,43 @@ describe('Implementing SICP chapter 2 using Geieslists requires', function () {
     
   });
 
+  it('a function to build Huffman trees', function() {
+    var a = L.ArrayToList([['a'],6,[],[]]);
+    var b = L.ArrayToList([['b'],3,[],[]]);
+    var c = L.ArrayToList([['c'],1,[],[]]);
+    var d = L.ArrayToList([['d'],1,[],[]]);
+    var e = L.ArrayToList([['e'],2,[],[]]);
+    var cd = L.ArrayToList([['c','d'],2,c,d]);
+    var cde = L.ArrayToList([['c','d','e'],4,cd,e]);
+    var bcde = L.ArrayToList([['b','c','d','e'],7,b,cde]);
+    var abcde = L.ArrayToList([['a','b','c','d','e'],13,a,bcde]);
+    
+    var as = [['a'],6];
+    var bs = [['b'],3];
+    var cs = [['c'],1];
+    var ds = [['d'],1];
+    var es = [['e'],2];
+    
+    var symbols_cd = L.ArrayToList([cs,ds]);
+    expect(L.buildH(symbols_cd).c).to.be.equal(cd.c);
+
+    var symbols_cde = L.ArrayToList([cs,ds,es]);
+    expect(L.buildH(symbols_cde).c).to.be.equal(cde.c);
+
+    var symbols_bcde = L.ArrayToList([bs,cs,ds,es]);
+    expect(L.buildH(symbols_bcde).c).to.be.equal(bcde.c);
+
+    var symbols_abcde = L.ArrayToList([as,bs,cs,ds,es]);
+    expect(L.buildH(symbols_abcde).c).to.be.equal(abcde.c);    
+  });
+
+  it('a function to build unordered Huffman dictionaries', function() {
+    expect(L.dictionaryH('a').c).to.be.equal('[[[a],1]]');
+    expect(L.dictionaryH('a ').c).to.be.equal('[[[a],1]]');
+    expect(L.dictionaryH('ab').c).to.be.equal('[[[b],1],[[a],1]]');
+    expect(L.dictionaryH('a b').c).to.be.equal('[[[b],1],[[a],1]]');
+    expect(L.dictionaryH('aba').c).to.be.equal('[[[b],1],[[a],2]]');
+    expect(L.dictionaryH('abacba').c).to.be.equal('[[[c],1],[[b],2],[[a],3]]');
+    expect(L.dictionaryH('The quick brown fox jumps over the lazy dog').c).to.be.equal('[]');
+  });
 });
