@@ -160,9 +160,10 @@ var L = function() {
         else return elementAt(index - 1, tail(list));
     }
 
-    function isMember(atom, list) {
+    function isMember(item, list, equals) {
+        equals = equals || function(a, b) { return a === b; }
         if (isEmpty(list)) return false;
-        else return (head(list) === atom) || (isMember(atom, tail(list)));
+        else return (equals(head(list), item) || isMember(item, tail(list), equals));
     }
 
     // index starts from 0
