@@ -135,35 +135,33 @@ var L = function() {
     }
 
     function sort(list, comparator) {
-        if (isEmpty(tail(list)))
-            return list
-        else
-            return insert(head(list), sort(tail(list), comparator), comparator);
+        if (isEmpty(tail(list))) return list
+        return insert(head(list), sort(tail(list), comparator), comparator);
     }
 
     // take(2,List(a,b,c,d,e)) --> List(a,b)
     function take(elems, list) { // elems = absolute number of list elements
         if (isEmpty(list) || size(list) === elems) return list;
-        else return take(elems, listInit(list));
+        return take(elems, listInit(list));
     }
 
     // drop(2,List(a,b,c,d,e)) --> List(c,d,e)
     function drop(elems, list) { // elems = absolute number of list elements
         if (isEmpty(list) || elems === 0) return list;
-        else return drop(elems - 1, tail(list));
+        return drop(elems - 1, tail(list));
     }
 
     // index starts from 0
     function elementAt(index, list) {
         if (isEmpty(list)) return list;
-        else if (index === 0) return head(list);
-        else return elementAt(index - 1, tail(list));
+        if (index === 0) return head(list);
+        return elementAt(index - 1, tail(list));
     }
 
     function isMember(item, list, equals) {
         equals = equals || function(a, b) { return a === b; }
         if (isEmpty(list)) return false;
-        else return (equals(head(list), item) || isMember(item, tail(list), equals));
+        return (equals(item, head(list)) || isMember(item, tail(list), equals));
     }
 
     // index starts from 0
@@ -174,29 +172,29 @@ var L = function() {
 
     // it means "split after given element"
     function splitAt(elem, list) {
-        if (elem<1) {
-            return ({v1:List(),v2:list});
+        if (elem < 1) {
+            return ({v1: List(), v2: list});
         } else if (elem > size(list)) {
-            return ({v1:list,v2:List()});
+            return ({v1: list, v2: List()});
         } else {
         var splitT = function (tuple) {
             var xs = tuple.v1, ys = tuple.v2;
-            if (size(xs) === elem) return ({ v1: xs, v2: ys })
-            else return splitT({ v1: concat(xs, List(head(ys))), v2: tail(ys) })
+            if (size(xs) === elem) return ({v1: xs, v2: ys})
+            else return splitT({v1: concat(xs, List(head(ys))), v2: tail(ys)});
         }
-            return splitT({v1:List(),v2:list})
+            return splitT({v1:List(),v2:list});
         }
     }
 
     // Marco's
     function equalList(listA,listB) {
         if (size(listA) !== size(listB)) return false;
-        var innerEq = function(alist,blist) {
+        var innerEq = function(alist, blist) {
             if (head(alist) !== head(blist)) return false;
             else if (isEmpty(tail(alist)) && isEmpty(tail(blist))) return true;
-            else return innerEq(tail(alist),tail(blist));
+            else return innerEq(tail(alist), tail(blist));
         }
-        return innerEq(listA,listB)
+        return innerEq(listA, listB);
     }
 
     // Dionyzis's
@@ -369,11 +367,10 @@ var L = function() {
         nil,
         ArrayToList(string.split('').filter(function(x){return x !== ' ';})));
 
-      // TODO - integrate with isMember by using a comparator
       function inDictionary(x, dict) {
-        if (isEmpty(dict)) return false;
-        if (x === head(head(head(dict)))) return true;
-        return inDictionary(x, tail(dict));
+        return isMember(x, dict, function(a, b) {
+          return (a === head(head(b)));
+        });
       }
       function increaseCount(x, dict) {
         return map(dict, function(item) {
