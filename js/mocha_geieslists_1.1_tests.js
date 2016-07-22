@@ -12,6 +12,19 @@ var expect = chai.expect;
 
 describe('Implementing SICP chapter 2 using Geieslists requires', function () {
 
+  it('an implementation of isMember that contemplates the optional injection of a comparator', function() {
+		var bd = L.List('b', 'd');
+		expect(L.isMember('b', bd)).to.be.ok;
+		expect(L.isMember('k', bd)).to.be.not.ok;
+  });
+
+  it('an implementation of isMember that contemplates the optional injection of a comparator', function() {    
+		var bcza = L.List(L.List('a', 'c'), L.List('h', 'c'), L.List('b', 'c'), L.List('z', 'a'));
+		expect(L.isMember(L.List('b','whatever'), bcza, carComparer)).to.be.ok;
+		expect(L.isMember(L.List('whatever', 'b','whatever'), bcza, carComparer)).to.be.not.ok;
+    function carComparer(a, b) { return L.head(a) === L.head(b); }
+  });
+
   it('an implementation of insert that contemplates the optional injection of a comparator', function() {
 		var bd = L.List('b', 'd');
 
