@@ -187,7 +187,7 @@ describe('Implementing SICP chapter 2 using Geieslists requires', function () {
     var cs = [['c'],1];
     var ds = [['d'],1];
     var es = [['e'],2];
-    
+
     var symbols_cd = L.ArrayToList([cs,ds]);
     expect(L.buildH(symbols_cd).c).to.be.equal(cd.c);
 
