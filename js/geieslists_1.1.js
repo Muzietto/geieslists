@@ -23,7 +23,10 @@ var geieslists = L = function() {
             return w(x, y);
         };
         // we  can safely freeze the string representation because cons is immutable
-        result.c = consToString(result);
+        result.c = '';
+        try {
+          result.c = consToString(result);
+        } catch (e) {}
         return result;
     };
 
