@@ -1,6 +1,6 @@
 # geieslists   ( _j_-_s_-lists)
 
-Crisp clear Javascript binary tree lists; no JS arrays whatsoever in the way. Everything is a JS function.
+Crisp clear JavaScript binary tree lists; no JS arrays whatsoever in the way. Everything is a JS function.
 
 Starting from basic building blocks (`cons`, `head`, `tail`, `size`, `isEmpty`, `isAtom`, two factories called `List` and `ArrayToList` plus a stringifier named `consToString`) 
 This is a simple implementation of lists as `cons(head,tail)`. Just an exercise with functions.
